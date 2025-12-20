@@ -1,7 +1,7 @@
 # 🚀 Frontier AI 365: Daily Progress Log
 
 ## 📑 Table of Contents
-* [Warmup Day 0: Foundations](#warmup-day-0-dec-20)
+* [Warmup Day 0: Foundations](#warmup-day-0-dec-20-2025)
 * [Day 1: Kickoff (Coming Dec 27)](#day-1)
 
 ---
@@ -22,3 +22,4 @@
 ### 🏁 Status
 * **Current Mode:** Warmup / NSU Exam Preparation.
 * **Official Kickoff:** Dec 27th.
+
