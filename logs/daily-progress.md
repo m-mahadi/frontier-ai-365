@@ -29,6 +29,7 @@
 
 ## Warmup Day 1: Dec 21, 2025
 **Focus:** Implementing a Neural Network from scratch using NumPy only
+**Code:** [MNIST from Scratch Notebook](../01-foundations-nn/mnist_neural_net_scratch_numpy.ipynb)
 
 ### Today's Progress
 * **The MNIST Challenge:** Successfully built and trained a 2-layer Feedforward Neural Network to classify handwritten digits using the MNIST dataset.
@@ -52,3 +53,4 @@
 * **Scratch Pad Goal:** While I successfully implemented the network today with guidance from YouTube and LLM thought partners, I am not yet at the "blank screen" level where I can write the entire architecture from memory.
 * **The "Hard Mode" Milestone:** During the semester break (starting Dec 27), I will return to this project. My goal is to implement the entire calculus and linear algebra chain from a blank file with zero assistance.
 * **Mastery Focus:** Understanding the "why" behind every partial derivative is a non-negotiable step in my journey toward mastering LLM foundations and RAG architectures.
+
