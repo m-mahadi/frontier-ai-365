@@ -3,6 +3,7 @@
 ## Table of Contents
 * [Warmup Day 0: Neural Network Foundation](#warmup-day-0-dec-20-2025)
 * [Warmup Day 1: Implementing Neural Network from scratch using numpy only](#warmup-day-1-dec-21-2025)
+* [Warmup Day 2: Understanding The Engine of Learning & The Architecture of Intelligence](#warmup-day-2-dec-22-2025)
 * [Day 1: Kickoff (Coming Dec 27)](#day-1)
 
 ---
@@ -54,3 +55,23 @@
 * **The "Hard Mode" Milestone:** During the semester break (starting Dec 27), I will return to this project. My goal is to implement the entire calculus and linear algebra chain from a blank file with zero assistance.
 * **Mastery Focus:** Understanding the "why" behind every partial derivative is a non-negotiable step in my journey toward mastering LLM foundations and RAG architectures.
 
+
+## Warmup Day 2: Dec 22, 2025
+**Focus:** The Engine of Learning & The Architecture of Intelligence
+
+### Today's Progress
+* **The Optimization Engine:** Completed **3Blue1Brown's** Deep Learning Chapters 2–4.
+    * **Gradient Descent:** Visualized the "cost landscape" and understood the negative gradient as the direction of steepest descent to minimize error.
+    * **Backpropagation (Intuition & Calculus):** Deconstructed how the network "assigns blame" for errors by propagating nudges backward through the layers using the Chain Rule.
+* **The Transformer Breakthrough:** Completed Chapters 5–6 on LLM internals.
+    * **Embeddings:** Explored how semantic meaning is mapped into high-dimensional vector space.
+    * **Self-Attention Mechanism:** Understood the step-by-step logic of how words update their meanings based on context using Queries (Q), Keys (K), and Values (V).
+
+### Key Insights
+* **The Gradient as a Compass:** Realized that in a multi-thousand-dimensional space (like my MNIST model), the gradient is the only reliable way to navigate. It doesn't find the global best solution, but it effectively finds a "good enough" local minimum.
+* **Recursive Attribution:** Backpropagation is essentially the mathematical implementation of "Error Attribution." It tracks how sensitive the final cost is to every single weight and bias in the early layers, allowing for precise, simultaneous updates across the entire architecture.
+* **Dynamic Context:** In Transformers, the attention mechanism is what makes LLMs "smart." Unlike fixed word-to-vector mappings, Attention allows the word "bank" to literally change its mathematical value based on whether the query finds the key "river" or the key "money."
+
+### 🏁 Status
+* **Current Mode:** Warmup / NSU Exam Preparation (Focus: Finals).
+* **Official Kickoff:** Dec 27th.
