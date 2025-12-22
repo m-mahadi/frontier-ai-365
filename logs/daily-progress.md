@@ -72,6 +72,4 @@
 * **Recursive Attribution:** Backpropagation is essentially the mathematical implementation of "Error Attribution." It tracks how sensitive the final cost is to every single weight and bias in the early layers, allowing for precise, simultaneous updates across the entire architecture.
 * **Dynamic Context:** In Transformers, the attention mechanism is what makes LLMs "smart." Unlike fixed word-to-vector mappings, Attention allows the word "bank" to literally change its mathematical value based on whether the query finds the key "river" or the key "money."
 
-### 🏁 Status
-* **Current Mode:** Warmup / NSU Exam Preparation (Focus: Finals).
-* **Official Kickoff:** Dec 27th.
+
