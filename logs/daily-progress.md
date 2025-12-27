@@ -28,7 +28,7 @@
 ---
 
 ## Warmup Day 1: Dec 21, 2025
-**Focus:** Implementing a Neural Network from scratch using NumPy only
+**Focus:** Implementing a Neural Network from scratch using NumPy only. (Code along from youtube).
 **Code:** [MNIST from Scratch Notebook](../01-foundations-nn/mnist_neural_net_scratch_numpy.ipynb)
 
 ### Today's Progress
@@ -99,5 +99,6 @@ When I plotted the computational graph and manually traced gradients backward fr
 * **Current Mode:** Full Deep Dive / Semester Break Begins Today.
 * **Next Step:** Implement a full neural network with this autograd engine (multi-layer, activation functions, etc.).
 * **Confidence Level:** Feeling like I actually *understand* backprop now, not just memorize it.
+
 
 
