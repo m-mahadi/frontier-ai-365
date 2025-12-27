@@ -98,7 +98,8 @@ When I plotted the computational graph and manually traced gradients backward fr
 ### 🏁 Status
 * **Current Mode:** Full Deep Dive / Semester Break Begins Today.
 * **Next Step:** Implement a full neural network with this autograd engine (multi-layer, activation functions, etc.).
-* **Confidence Level:** Feeling like I actually *understand* backprop now, not just memorize it.
+* **Confidence Level:** Feeling like I actually *understand* backprop now.
+
 
 
 
