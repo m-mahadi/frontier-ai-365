@@ -4,7 +4,7 @@
 * [Warmup Day 0: Neural Network Foundation](#warmup-day-0-dec-20-2025)
 * [Warmup Day 1: Implementing Neural Network from scratch using numpy only](#warmup-day-1-dec-21-2025)
 * [Warmup Day 2: Understanding The Engine of Learning & The Architecture of Intelligence](#warmup-day-2-dec-22-2025)
-* [Day 1: Kickoff (Coming Dec 27)](#day-1)
+* [Day 1: Manual Backpropagation Implementation & Understanding the Chain Rule](#day-1-dec-27-2025)
 
 ---
 
@@ -73,3 +73,27 @@
 * **Dynamic Context:** In Transformers, the attention mechanism is what makes LLMs "smart." Unlike fixed word-to-vector mappings, Attention allows the word "bank" to literally change its mathematical value based on whether the query finds the key "river" or the key "money."
 
 
+## Day 1: Dec 27, 2025
+**Focus:** Manual Backpropagation Implementation & Understanding the Chain Rule
+**Code:** [Micrograd from Scratch Notebook](../01-foundations-nn/micrograd_from_scratch.ipynb)
+
+### Today's Progress
+* **The Micrograd Challenge:** Built my own autograd engine from scratch by manually implementing backpropagation.
+* **Implementation Highlights:**
+    * Created a custom `Value` class to track computational graph operations (addition, multiplication).
+    * Implemented forward pass for simple neural computations.
+    * **Manually coded backward pass** - this is where the magic happened. I literally computed each gradient by hand, tracking how each intermediate value contributes to the final loss.
+* **Visualization:** Used Graphviz to render the computational graph, making the chain rule visually obvious - seeing how gradients flow backward through nodes was mind-blowing.
+
+### Key Insights
+* **The Chain Rule = Gradient Highway:** Backprop is just the chain rule applied recursively. Each node multiplies its local gradient by the gradient flowing from above. It's elegant as hell once you see it.
+* **Manual Implementation > Theory:** Actually writing `dL/da`, `dL/db`, `dL/dc` by hand gave me 10x more intuition than reading about it. The formula `∂L/∂a = (∂L/∂c) * (∂c/∂a)` finally clicked.
+* **Why Autograd is Powerful:** After doing this manually, I deeply appreciate PyTorch's autograd. What I coded in 100+ lines, PyTorch does automatically with `.backward()`. But now I know *exactly* what's happening under the hood.
+
+### The Breakthrough Moment
+When I plotted the computational graph and manually traced gradients backward from the loss `L` through `d`, `e`, and finally to `a` and `b`, the entire neural network training loop suddenly made perfect sense. Backpropagation isn't magic - it's just calculus, organized.
+
+### 🏁 Status
+* **Current Mode:** Full Deep Dive / Semester Break Begins Today.
+* **Next Step:** Implement a full neural network with this autograd engine (multi-layer, activation functions, etc.).
+* **Confidence Level:** Feeling like I actually *understand* backprop now, not just memorize it.
