@@ -142,7 +142,8 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 
 ### 🏁 Status
 * **Current Milestone:** Built a complete working neural network with manual backprop from absolute scratch.
-* **Confidence Level:** I don't just understand backprop anymore - I can *can* it. Big difference.
+* **Confidence Level:** I don't just understand backprop anymore - I can *implement* it. Big difference.
+
 
 
 
