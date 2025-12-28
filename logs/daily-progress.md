@@ -5,6 +5,7 @@
 * [Warmup Day 1: Implementing Neural Network from scratch using numpy only](#warmup-day-1-dec-21-2025)
 * [Warmup Day 2: Understanding The Engine of Learning & The Architecture of Intelligence](#warmup-day-2-dec-22-2025)
 * [Day 1: Manual Backpropagation Implementation & Understanding the Chain Rule](#day-1-dec-27-2025)
+* [Day 2: Building a Complete Neural Network with Manual Autograd](#day-2-dec-28-2025)
 
 ---
 
@@ -76,7 +77,7 @@
 
 
 ## Day 1: Dec 27, 2025
-**Focus:** Manual Backpropagation Implementation & Understanding the Chain Rule
+**Focus:** Manual Backpropagation Implementation & Understanding the Chain Rule following Karpathy's micrograd lecture.
 **Code:** [Micrograd from Scratch Notebook](../01-foundations-nn/micrograd_from_scratch.ipynb)
 
 ### Today's Progress
@@ -100,6 +101,48 @@ When I plotted the computational graph and manually traced gradients backward fr
 * **Next Step:** Implement a full neural network with this autograd engine (multi-layer, activation functions, etc.).
 * **Confidence Level:** Feeling like I actually *understand* backprop now.
 
+---
+
+## Day 2: Dec 28, 2025
+**Focus:** Building a Complete Neural Network with Manual Autograd following Karpathy's micrograd lecture.
+**Code:** [Micrograd Complete Implementation](../01-foundations-nn/micrograd_from_scratch_complete.ipynb)
+
+### Today's Progress
+* **Full Autograd Engine:** Expanded yesterday's `Value` class into a complete automatic differentiation system.
+* **Implemented Key Operations:**
+    * Added support for subtraction (`__sub__`), negation (`__neg__`), power (`__pow__`), division (`__truediv__`)
+    * Implemented reverse operations (`__radd__`, `__rmul__`, `__rsub__`) to handle cases like `2 * Value(3)`
+    * Built the `tanh` activation function with proper gradient computation: `(1 - t²) * out.grad`
+* **Topological Sort:** Wrote the recursive `build_topo()` function to traverse the computational graph in the correct order for backpropagation.
+* **Automatic Backward Pass:** Created the `.backward()` method that:
+    * Sets the output gradient to 1.0
+    * Traverses the graph in reverse topological order
+    * Calls each node's `._backward()` to propagate gradients
+* **Built a Neural Network from Scratch:**
+    * `Neuron` class: Single neuron with weights, bias, and tanh activation
+    * `Layer` class: Collection of neurons
+    * `MLP` class: Multi-layer perceptron with configurable architecture
+* **Training Loop:** Implemented complete gradient descent:
+    * Forward pass to compute predictions
+    * Loss computation (mean squared error)
+    * Backward pass via `.backward()`
+    * Manual weight updates: `p.data += -0.05 * p.grad`
+
+### Key Insights
+* **Why Topological Sort Matters:** You can't just backprop in any order - you need to ensure a node's gradients from all paths are accumulated *before* propagating to its children. Topological sort guarantees this.
+* **The Power of Operator Overloading:** Making `Value` objects work with `+`, `*`, `-`, `/` means you can write neural network code that looks like normal math but secretly builds a computational graph. That's exactly what PyTorch does under the hood.
+* **Zero-Ing Gradients is Critical:** Before each backward pass, you MUST set all gradients to zero. Otherwise, gradients accumulate across iterations and you get completely wrong updates. This tripped me up initially. Funnily Karpathy himself did it wrong first time. 
+* **Watching Loss Decrease is Satisfying:** Seeing the loss drop from `5.77 → 0.033` over 20 iterations was the moment everything clicked. The network actually *learned* from just 4 examples.
+
+### Validation Against PyTorch
+Implemented the exact same network in PyTorch and compared gradients - they matched perfectly (within floating-point precision). This confirmed my implementation is mathematically correct.
+
+### The Breakthrough Moment
+When I ran the training loop and watched `ypred` go from random garbage to nearly matching `[1.0, -1.0, -1.0, 1.0]`, it hit me: this is *literally* how all neural networks learn. Just this loop, scaled up billions of times. Everything from GPT to Stable Diffusion is fundamentally doing what I just coded.
+
+### 🏁 Status
+* **Current Milestone:** Built a complete working neural network with manual backprop from absolute scratch.
+* **Confidence Level:** I don't just understand backprop anymore - I can *can* it. Big difference.
 
 
 
