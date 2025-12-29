@@ -6,6 +6,7 @@
 * [Warmup Day 2: Understanding The Engine of Learning & The Architecture of Intelligence](#warmup-day-2-dec-22-2025)
 * [Day 1: Manual Backpropagation Implementation & Understanding the Chain Rule](#day-1-dec-27-2025)
 * [Day 2: Building a Complete Neural Network with Manual Autograd](#day-2-dec-28-2025)
+* [Day 3: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-2-dec-28-2025)
 
 ---
 
@@ -175,6 +176,7 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 * **Confidence Level:** The bridge from neural nets to language modeling is starting to form. Excited to see this evolve into actual name generation.
 
 Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
+
 
 
 
