@@ -147,7 +147,7 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 
 ## Day 3: Dec 29, 2025
 **Focus:** Starting the journey into Language Modeling – Bigram Character-Level Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
-**Code:** [Bigram Language Model Notebook](../02-language-modeling/bigram_lm.ipynb)
+**Code:** [Bigram Language Model Notebook](../01-foundations-nn/bigram_lm.ipynb)
 
 ### Today's Progress
 * **Dataset:** Loaded the classic `names.txt` dataset – 32,000+ names, perfect for character-level modeling.
@@ -176,6 +176,7 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 * **Confidence Level:** The bridge from neural nets to language modeling is starting to form. Excited to see this evolve into actual name generation.
 
 Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
+
 
 
 
