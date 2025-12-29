@@ -144,6 +144,37 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 * **Current Milestone:** Built a complete working neural network with manual backprop from absolute scratch.
 * **Confidence Level:** I don't just understand backprop anymore - I can *implement* it. Big difference.
 
+## Day 3: Dec 29, 2025
+**Focus:** Starting the journey into Language Modeling – Bigram Character-Level Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
+**Code:** [Bigram Language Model Notebook](../02-language-modeling/bigram_lm.ipynb)
+
+### Today's Progress
+* **Dataset:** Loaded the classic `names.txt` dataset – 32,000+ names, perfect for character-level modeling.
+* **Exploratory Analysis:**
+    * Shortest name: 2 characters, longest: 15.
+    * Visualized the most common bigrams by manually counting transitions (adding start `<S>` and end `<E>` tokens as `.`).
+* **Bigram Counting:**
+    * Augmented every name with start/end tokens: `['.', ...chars, '.']`
+    * Built a frequency dictionary of all character bigrams → character transitions.
+    * Sorted and printed the top bigrams – immediately saw patterns like `(n, .)` being the most common ending (names ending in "n"), `(a, .)` second, etc.
+* **Key Observations from Counts:**
+    * Strong patterns emerged: names love ending in "a", "n", "y", "e".
+    * Common starts: `.` → "a", "k", "m", "j", "s".
+    * Some letters almost never follow others (e.g., very few "q" not followed by "u").
+
+### Key Insights
+* **Language Modeling is Just Predicting the Next Character:** At its core, a bigram model is literally asking "given this character, what's the most likely next one?" Everything else (attention, transformers, GPT) is just a fancier way to answer that same question.
+* **Counting = Learning:** This naive counting approach is actually a maximum likelihood estimator. The "parameters" are just the frequencies. No gradients, no backprop – yet it already captures real structure in names.
+* **The Power of Start/End Tokens:** Adding `.` at both ends is genius. It lets the model learn both how names start and how they end in one unified framework.
+* **Sleepy Brain Still Works (Sometimes):** Was fighting heavy eyelids all day – ended up napping mid-study session. Progress was slower than I wanted, but even in this tired state, seeing those sorted bigrams pop out felt like unlocking a tiny piece of how language works.
+
+### 🏁 Status & Reflections
+* **Current Milestone:** Solid foundation – bigram counts are done, data is explored. Next: turn these counts into probabilities, implement sampling, and compute loss (negative log likelihood).
+* **Honest Note:** Only got this far today because energy crashed hard. Feeling a bit frustrated with myself, but reminding myself this is a marathon. The concepts are clicking even when I'm half-asleep.
+* **Next Step:** Finish the bigram model tomorrow inshaAllah – implement the probability matrix, generate names, evaluate with loss, then move to the neural net version.
+* **Confidence Level:** The bridge from neural nets to language modeling is starting to form. Excited to see this evolve into actual name generation.
+
+Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
 
 
 
