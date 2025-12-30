@@ -181,7 +181,7 @@ Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
 
 ## Day 4: Dec 30, 2025
 **Focus:** Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
-**Code:** [Bigram LM - Probability and Evaluation](../01-foundations-nn/character bigram language model.ipynb)
+**Code:** [character bigram language model](../01-foundations-nn/character bigram language model.ipynb)
 
 ### Today's Progress
 * **Vectorized Normalization:** 
@@ -212,6 +212,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 * **Current Milestone:** Finished the "counting" version of the Bigram model. Baseline loss: 2.454.
 * **Confidence Level:** High. I understand the *why* behind every operation in the probability matrix.
 * **Next Step:** Build the Neural Network version of the Bigram model. Instead of counting, use a single linear layer + Softmax to hit the same 2.454 loss via gradient descent.
+
 
 
 
