@@ -181,6 +181,7 @@ Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
 
 ## Day 4: Dec 30, 2025
 **Focus:** Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
+
 **Code:** [Character bigram language model](https://github.com/m-mahadi/frontier-ai-365/blob/1e02b62d1bdb35ea08df094927cfa3d4f018889b/01-foundations-nn/character%20bigram%20language%20model.ipynb)
 
 ### Today's Progress
@@ -212,6 +213,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 * **Current Milestone:** Finished the "counting" version of the Bigram model. Baseline loss: 2.454.
 * **Confidence Level:** High. I understand the *why* behind every operation in the probability matrix.
 * **Next Step:** Build the Neural Network version of the Bigram model. Instead of counting, use a single linear layer + Softmax to hit the same 2.454 loss via gradient descent.
+
 
 
 
