@@ -7,6 +7,7 @@
 * [Day 1: Manual Backpropagation Implementation & Understanding the Chain Rule](#day-1-dec-27-2025)
 * [Day 2: Building a Complete Neural Network with Manual Autograd](#day-2-dec-28-2025)
 * [Day 3: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-3-dec-29-2025)
+* [Day 4: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-4-dec-30-2025)
 
 ---
 
@@ -211,6 +212,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 * **Current Milestone:** Finished the "counting" version of the Bigram model. Baseline loss: 2.454.
 * **Confidence Level:** High. I understand the *why* behind every operation in the probability matrix.
 * **Next Step:** Build the Neural Network version of the Bigram model. Instead of counting, use a single linear layer + Softmax to hit the same 2.454 loss via gradient descent.
+
 
 
 
