@@ -178,6 +178,41 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
 
 
+## Day 4: Dec 30, 2025
+**Focus:** Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
+**Code:** [Bigram LM - Probability and Evaluation](../01-foundations-nn/character bigram language model.ipynb)
+
+### Today's Progress
+* **Vectorized Normalization:** 
+    * Converted the count matrix `N` to a probability matrix `P`.
+    * **The Broadcasting Battle:** Spent 30 minutes debugging why `P = N / N.sum(1)` wasn't throwing an error but was silently destroying my math.
+    * **The Fix:** Used `keepdim=True` to force the divisor into shape `(27, 1)`, ensuring proper row-wise normalization. Without it, PyTorch was broadcasting a `(27,)` vector column-wise, turning my probability distribution into complete nonsense.
+* **Generating Names (Sampling):**
+    * Used `torch.multinomial` to sample the next character based on the current row's probability distribution.
+    * Realized that even with broken math, the output looked identical due to fixed seeds and `multinomial`'s internal auto-normalization.
+    * Generated names like `cexze`, `miana`, and `ss`. Clearly bigram behavior—phonetically plausible but zero long-term coherence.
+* **Model Evaluation (Negative Log Likelihood):**
+    * Calculated the **Likelihood** as the product of all actual bigram probabilities in the dataset.
+    * Switched to **Log-Likelihood** to avoid numerical underflow (summing logs beats multiplying tiny floats).
+    * Implemented **Average NLL** as the loss function.
+    * **Final Baseline Loss:** ~2.454.
+* **Model Smoothing:** Added a "fake count" of 1 to all bigrams (`P = (N+1).float()`) to prevent `log(0) = -∞` when hitting unseen character pairs like 'jq'.
+
+### Key Insights
+* **Tensor Contiguity is Everything:** A tensor isn't a grid - it's metadata (shape/strides) wrapped around a flat 1D memory block. This is why `view()` is free but `transpose()` often needs `.contiguous()` before certain ops.
+* **Broadcasting is a Silent Killer:** It makes code concise but hides catastrophic logic errors. If you're reducing dimensions, always explicitly verify *which* dimension you're collapsing.
+* **The NLL Intuition:** Minimizing NLL = maximizing the probability the model assigns to real training data. If the model is "surprised" by an actual name, loss explodes.
+* **Bigram = Glorified Lookup Table:** It has zero memory beyond one character. To get better names, you need more context (trigrams) or a neural network that can learn representations.
+
+### The "Aha" Moment
+That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to respect the **Trailing Dimension Rule**. In PyTorch, broadcasting starts from the *right*. By skipping `keepdim`, I let the engine prepend a `1` to the left, which completely shifted the operation's semantics. This matters everywhere - normalization in embeddings, attention scores, loss calculations. Get this wrong and your model trains on garbage data while looking perfectly fine.
+
+### 🏁 Status & Reflections
+* **Current Milestone:** Finished the "counting" version of the Bigram model. Baseline loss: 2.454.
+* **Confidence Level:** High. I understand the *why* behind every operation in the probability matrix.
+* **Next Step:** Build the Neural Network version of the Bigram model. Instead of counting, use a single linear layer + Softmax to hit the same 2.454 loss via gradient descent.
+
+
 
 
 
