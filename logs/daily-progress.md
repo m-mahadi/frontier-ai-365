@@ -216,7 +216,39 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 
 
 
+## Day 5: Dec 31, 2025
+**Focus:** From Lookup Tables to Gradient Descent: The Neural Network Reincarnation of the Bigram Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
+**Code:** [Character Bigram Language Model (Neural Net Version)](../01-foundations-nn/character_bigram_language_model_nn.ipynb)
 
+### Today's Progress
+* **The Single-Layer Architecture:**
+    * Implemented a minimal "neural network" consisting of a single linear layer with 27 neurons, each receiving 27 inputs (the one-hot encoded characters).
+    * Weight Initialization: Initialized $W \in \mathbb{R}^{27 \times 27}$ using `torch.randn` with `requires_grad=True`.
+* **The Differentiable Forward Pass:**
+    * One-Hot Encoding: Transformed integer indices `xs` into a sparse bitmask.
+    * Logits to Probs: Calculated `logits = xenc @ W`, followed by manual Softmax implementation: `counts = logits.exp()` and `probs = counts / counts.sum(1, keepdims=True)`.
+    * Broadcasting Reinforcement: Applied the `keepdims=True` lesson from yesterday to ensure normalization happened across the correct axis.
+* **Optimization Loop:**
+    * Implemented the Negative Log Likelihood (NLL) loss function using specialized tensor indexing: `-probs[torch.arange(num), ys].log().mean()`.
+    * Backpropagation: Used `loss.backward()` to compute gradients and updated weights via basic SGD: `W.data += -50 * W.grad`.
+    * Regularization (Weight Decay): Added a smoothing term `0.01 * (W**2).mean()` to the loss. This is the gradient-descent equivalent of the "add-one smoothing" I used in the counting model.
+* **Results:** Successfully converged to the exact same 2.454 loss as the counting-based approach.
+
+### Key Insights
+* **Linear Layer = Differentiable Lookup Table:** When the input is a one-hot vector, the matrix multiplication `xenc @ W` is mathematically identical to selecting a specific row of $W$. The weights are essentially "learning" the log-counts of character transitions.
+* **Softmax is a Bridge:** It turns unconstrained raw numbers (logits) into a valid probability distribution. The `exp()` ensures positivity, and the normalization ensures the sum equals 1.
+* **Stochasticity vs. Determinism:** The model is "trained" via gradient descent, but the output generation remains stochastic because we sample from the resulting distribution using `torch.multinomial`.
+
+### The "Aha" Moment (Connecting to the Transformer)
+The transition from a counting matrix to a neural network is where the "Magic of AI" starts. In a Bigram model, the relationship between characters is explicit and hardcoded. In this NN version, we've generalized the problem: we are no longer "counting," we are optimizing. This is the fundamental unit of the Transformer's attention mechanism—calculating scores (logits), normalizing them (softmax), and using them to weight information.
+
+### 🏁 Status & Reflections
+* **Current Milestone:** Neural Network Bigram model complete. Loss matched baseline (2.454).
+* **Confidence Level:** High. The connection between the count-based probability matrix and the optimized weight matrix is now crystal clear.
+* **Next Step:** Scaling the context. Moving from a Bigram ($n=2$) to an MLP-based model with a sliding window (following the Bengio et al. 2003 approach). This is the leap where we start learning embeddings—the core of any RAG pipeline.
+* **Year-End Reflection:** Ending 2025 by understanding that a neural network isn't magic—it's just optimization over a parameter space. The same problem (predicting the next character) solved two ways: once by counting, once by gradient descent. Both converge to the same answer. That's the beauty of it.
+
+Tomorrow: Embeddings. The representation layer that makes everything else possible. InshaAllah.
 
 
 
