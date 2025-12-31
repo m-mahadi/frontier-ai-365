@@ -241,16 +241,13 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 * **Softmax is a Bridge:** It turns unconstrained raw numbers (logits) into a valid probability distribution. The `exp()` ensures positivity, and the normalization ensures the sum equals 1.
 * **Stochasticity vs. Determinism:** The model is "trained" via gradient descent, but the output generation remains stochastic because we sample from the resulting distribution using `torch.multinomial`.
 
-### The "Aha" Moment (Connecting to the Transformer)
-The transition from a counting matrix to a neural network is where the "Magic of AI" starts. In a Bigram model, the relationship between characters is explicit and hardcoded. In this NN version, we've generalized the problem: we are no longer "counting," we are optimizing. This is the fundamental unit of the Transformer's attention mechanism—calculating scores (logits), normalizing them (softmax), and using them to weight information.
-
 ### 🏁 Status & Reflections
 * **Current Milestone:** Neural Network Bigram model complete. Loss matched baseline (2.454).
 * **Confidence Level:** High. The connection between the count-based probability matrix and the optimized weight matrix is now crystal clear.
-* **Next Step:** Scaling the context. Moving from a Bigram ($n=2$) to an MLP-based model with a sliding window (following the Bengio et al. 2003 approach). This is the leap where we start learning embeddings—the core of any RAG pipeline.
 * **Year-End Reflection:** Ending 2025 by understanding that a neural network isn't magic—it's just optimization over a parameter space. The same problem (predicting the next character) solved two ways: once by counting, once by gradient descent. Both converge to the same answer. That's the beauty of it.
 
 Tomorrow: Embeddings. The representation layer that makes everything else possible. InshaAllah.
+
 
 
 
