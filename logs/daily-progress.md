@@ -219,6 +219,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 
 ## Day 5: Dec 31, 2025
 **Focus:** From Lookup Tables to Gradient Descent: The Neural Network Reincarnation of the Bigram Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
+
 **Code:** [Character Bigram Language Model (Neural Net Version)](../01-foundations-nn/character_bigram_language_model_nn.ipynb)
 
 ### Today's Progress
@@ -250,6 +251,7 @@ The transition from a counting matrix to a neural network is where the "Magic of
 * **Year-End Reflection:** Ending 2025 by understanding that a neural network isn't magic—it's just optimization over a parameter space. The same problem (predicting the next character) solved two ways: once by counting, once by gradient descent. Both converge to the same answer. That's the beauty of it.
 
 Tomorrow: Embeddings. The representation layer that makes everything else possible. InshaAllah.
+
 
 
 
