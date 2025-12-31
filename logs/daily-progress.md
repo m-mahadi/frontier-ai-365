@@ -8,6 +8,7 @@
 * [Day 2: Building a Complete Neural Network with Manual Autograd](#day-2-dec-28-2025)
 * [Day 3: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-3-dec-29-2025)
 * [Day 4: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-4-dec-30-2025)
+* [Day 5: Character Bigram Language Model (Neural Net Version)](#day-5-dec-31-2025)
 
 ---
 
@@ -249,6 +250,7 @@ The transition from a counting matrix to a neural network is where the "Magic of
 * **Year-End Reflection:** Ending 2025 by understanding that a neural network isn't magic—it's just optimization over a parameter space. The same problem (predicting the next character) solved two ways: once by counting, once by gradient descent. Both converge to the same answer. That's the beauty of it.
 
 Tomorrow: Embeddings. The representation layer that makes everything else possible. InshaAllah.
+
 
 
 
