@@ -4,12 +4,12 @@
 * [Warmup Day 0: Neural Network Foundation](#warmup-day-0-dec-20-2025)
 * [Warmup Day 1: Implementing Neural Network from scratch using numpy only](#warmup-day-1-dec-21-2025)
 * [Warmup Day 2: Understanding The Engine of Learning & The Architecture of Intelligence](#warmup-day-2-dec-22-2025)
-* [Day 1: Manual Backpropagation Implementation & Understanding the Chain Rule](#day-1-dec-27-2025)
-* [Day 2: Building a Complete Neural Network with Manual Autograd](#day-2-dec-28-2025)
-* [Day 3: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-3-dec-29-2025)
-* [Day 4: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-4-dec-30-2025)
-* [Day 5: Character Bigram Language Model (Neural Net Version)](#day-5-dec-31-2025)
-* [Day 6: Building an MLP Character Language Model](#day-6-jan-01-2026)
+* [Day 0: Manual Backpropagation Implementation & Understanding the Chain Rule](#day-0-dec-27-2025)
+* [Day 1: Building a Complete Neural Network with Manual Autograd](#day-1-dec-28-2025)
+* [Day 2: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-2-dec-29-2025)
+* [Day 3: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-3-dec-30-2025)
+* [Day 4: Character Bigram Language Model (Neural Net Version)](#day-4-dec-31-2025)
+* [Day 5: Building an MLP Character Language Model](#day-5-jan-01-2026)
   
 ---
 
@@ -80,7 +80,7 @@
 * **Attention Makes Context Dynamic:** This is the breakthrough that makes Transformers actually intelligent. Unlike static embeddings, Attention lets "bank" literally change its vector representation based on whether it's next to "river" or "money." Same word, different vectors, different meanings.
 
 
-## Day 1: Dec 27, 2025
+## Day 0: Dec 27, 2025
 **Focus:** Manual Backpropagation Implementation & Understanding the Chain Rule following Karpathy's micrograd lecture.
 **Code:** [Micrograd from Scratch Notebook](../01-foundations-nn/micrograd_from_scratch.ipynb)
 
@@ -107,7 +107,7 @@ When I plotted the computational graph and manually traced gradients backward fr
 
 ---
 
-## Day 2: Dec 28, 2025
+## Day 1: Dec 28, 2025
 **Focus:** Building a Complete Neural Network with Manual Autograd following Karpathy's micrograd lecture.
 **Code:** [Micrograd Complete Implementation](../01-foundations-nn/micrograd_from_scratch_complete.ipynb)
 
@@ -148,7 +148,7 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 * **Current Milestone:** Built a complete working neural network with manual backprop from absolute scratch.
 * **Confidence Level:** I don't just understand backprop anymore - I can *implement* it. Big difference.
 
-## Day 3: Dec 29, 2025
+## Day 2: Dec 29, 2025
 **Focus:** Starting the journey into Language Modeling – Bigram Character-Level Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
 **Code:** [Bigram Language Model Notebook](../01-foundations-nn/bigram_lm.ipynb)
 
@@ -181,7 +181,7 @@ When I ran the training loop and watched `ypred` go from random garbage to nearl
 Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
 
 
-## Day 4: Dec 30, 2025
+## Day 3: Dec 30, 2025
 **Focus:** Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
 
 **Code:** [Character bigram language model](https://github.com/m-mahadi/frontier-ai-365/blob/1e02b62d1bdb35ea08df094927cfa3d4f018889b/01-foundations-nn/character%20bigram%20language%20model.ipynb)
@@ -218,7 +218,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 
 
 
-## Day 5: Dec 31, 2025
+## Day 4: Dec 31, 2025
 **Focus:** From Lookup Tables to Gradient Descent: The Neural Network Reincarnation of the Bigram Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
 
 **Code:** [Character Bigram Language Model (Neural Net Version)](../01-foundations-nn/character_bigram_language_model_nn.ipynb)
@@ -249,8 +249,9 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 
 Tomorrow: Embeddings. The representation layer that makes everything else possible. InshaAllah.
 
-## Day 6: Jan 1, 2026
+## Day 5: Jan 1, 2026
 **Focus:** Breaking the Bigram Barrier - Building an MLP Character Language Model
+
 **Code:** [MLP Character Language Model](../01-foundations-nn/MLP part 1.ipynb)
 
 ### Today's Progress
@@ -297,6 +298,7 @@ Loss: F.cross_entropy(logits, target='l')
 - Can learn context-dependent patterns
 
 But still has a **fatal flaw**: fixed context window. Can't handle variable-length context. 
+
 
 
 
