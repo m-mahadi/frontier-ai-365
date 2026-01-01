@@ -9,7 +9,8 @@
 * [Day 3: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-3-dec-29-2025)
 * [Day 4: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-4-dec-30-2025)
 * [Day 5: Character Bigram Language Model (Neural Net Version)](#day-5-dec-31-2025)
-
+* [Day 6: Building an MLP Character Language Model](#day-6-jan-01-2026)
+  
 ---
 
 ## Warmup Day 0: Dec 20, 2025
@@ -247,6 +248,56 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 * **Year-End Reflection:** Ending 2025 by understanding that a neural network isn't magic—it's just optimization over a parameter space. The same problem (predicting the next character) solved two ways: once by counting, once by gradient descent. Both converge to the same answer. That's the beauty of it.
 
 Tomorrow: Embeddings. The representation layer that makes everything else possible. InshaAllah.
+
+## Day 6: Jan 1, 2026
+**Focus:** Breaking the Bigram Barrier - Building an MLP Character Language Model
+**Code:** [MLP Character Language Model](../01-foundations-nn/MLP part 1.ipynb)
+
+### Today's Progress
+* **The Architecture Shift:**
+    * Upgraded from 1-character context (Bigram) to a **Fixed-Size Window** approach. Set `block_size = 3` - the model now looks at the previous 3 characters to predict the 4th.
+    * **Embedding Layer:** Instead of one-hot encoding (wasteful), implemented a lookup table `C ∈ ℝ^(27×2)`. This projects 27 discrete characters into a continuous 2D embedding space.
+* **The Forward Pass:**
+    * **Embedding Lookup:** `emb = C[X]` gives us shape `[Batch, Block_Size, Embed_Dim]`.
+    * **The `.view()` Trick:** Instead of using `torch.cat()` (which copies memory), used `emb.view(-1, 6)` to flatten the context. Zero-copy operation because tensors are just metadata over contiguous memory.
+    * **Hidden Layer:** `W1 ∈ ℝ^(6×100)` and `b1 ∈ ℝ^100` with `tanh` activation.
+    * **Output Layer:** `W2 ∈ ℝ^(100×27)` and `b2 ∈ ℝ^27` to produce logits.
+* **Loss Function Upgrade:**
+    * Ditched manual softmax calculation for `F.cross_entropy`.
+    * **Why this matters:** `F.cross_entropy` uses the log-sum-exp trick for numerical stability. It never instantiates the full probability tensor - goes straight from logits to loss. Way more efficient.
+
+### Key Insights
+* **Distributed Representations = The Entire Game:** In the bigram model, 'a' and 'b' are just indices - no relationship between them. With embeddings, the model learns that 'a' and 'e' (both vowels) should be "close" in vector space. This is the foundational principle behind every LLM.
+* **`.view()` is Free:** Reconfirmed the memory contiguity lesson. Tensors are just metadata (shape + strides) over a 1D memory block. `.view()` changes the metadata without touching data. O(1) operation. Beautiful.
+* **Parameter Sharing Scales:** A counting approach with `block_size=3` would need a 27³ table (19,683 entries). The MLP handles this by sharing parameters across positions through embeddings and hidden layers. This is how neural nets compress logic.
+* **Why Tanh Instead of ReLU?** Following Bengio et al. 2003's original paper. ReLU came later. Want to see if the architecture choices from 2003 still work today 
+
+### The Architecture in Action
+
+The model flow:
+```
+Input: "hel" → [7, 4, 11]  (character indices)
+Embedding: C[[7,4,11]] → [[e₁], [e₂], [e₃]]  (each eᵢ ∈ ℝ²)
+Flatten: view(-1, 6) → [e₁, e₂, e₃]  (concatenated into ℝ⁶)
+Hidden: tanh(xW₁ + b₁) → h ∈ ℝ¹⁰⁰
+Output: hW₂ + b₂ → logits ∈ ℝ²⁷
+Loss: F.cross_entropy(logits, target='l')
+```
+
+### The Scaling Realization
+
+**Bigram limitations:**
+- Only sees 1 character back
+- No parameter sharing
+- Can't capture patterns longer than 2 characters
+
+**MLP improvements:**
+- Sees 3 characters back
+- Shares embedding parameters across positions
+- Can learn context-dependent patterns
+
+But still has a **fatal flaw**: fixed context window. Can't handle variable-length context. 
+
 
 
 
