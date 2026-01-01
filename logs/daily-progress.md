@@ -9,7 +9,7 @@
 * [Day 2: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-2-dec-29-2025)
 * [Day 3: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-3-dec-30-2025)
 * [Day 4: Character Bigram Language Model (Neural Net Version)](#day-4-dec-31-2025)
-* [Day 5: Jan 01 - MLP & Distributed Representations](#day-5-jan-1-2026)
+* [Day 5: Jan 01 - Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
   
 ---
 
@@ -298,6 +298,7 @@ Loss: F.cross_entropy(logits, target='l')
 - Can learn context-dependent patterns
 
 But still has a **fatal flaw**: fixed context window. Can't handle variable-length context. 
+
 
 
 
