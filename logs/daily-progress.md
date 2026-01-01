@@ -184,7 +184,7 @@ Still grinding. One day at a time. InshaAllah tomorrow will be stronger.
 ## Day 3: Dec 30, 2025
 **Focus:** Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
 
-**Code:** [Character bigram language model](https://github.com/m-mahadi/frontier-ai-365/blob/1e02b62d1bdb35ea08df094927cfa3d4f018889b/01-foundations-nn/character%20bigram%20language%20model.ipynb)
+**Code:** [Character bigram language model](https://github.com/m-mahadi/frontier-ai-365/blob/eee2580f43a35c3f6d3b59a157398d274c0686fb/01-foundations-nn/character%20bigram%20language%20model.ipynb)
 
 ### Today's Progress
 * **Vectorized Normalization:** 
@@ -221,7 +221,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 ## Day 4: Dec 31, 2025
 **Focus:** From Lookup Tables to Gradient Descent: The Neural Network Reincarnation of the Bigram Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
 
-**Code:** [Character Bigram Language Model (Neural Net Version)](https://github.com/m-mahadi/frontier-ai-365/blob/3bfa4bb9999837c5f8ff20f4caa07861b86e8a3b/01-foundations-nn/MLP%20part%201.ipynb)
+**Code:** [Character Bigram Language Model (Neural Net Version)](https://github.com/m-mahadi/frontier-ai-365/blob/eee2580f43a35c3f6d3b59a157398d274c0686fb/01-foundations-nn/character_bigram_language_model_nn.ipynb)
 
 ### Today's Progress
 * **The Single-Layer Architecture:**
@@ -252,7 +252,7 @@ Tomorrow: Embeddings. The representation layer that makes everything else possib
 ## Day 5: Jan 1, 2026
 **Focus:** Breaking the Bigram Barrier - Building an MLP Character Language Model
 
-**Code:** [MLP Character Language Model](../01-foundations-nn/MLP part 1.ipynb)
+**Code:** [MLP Character Language Model](https://github.com/m-mahadi/frontier-ai-365/blob/eee2580f43a35c3f6d3b59a157398d274c0686fb/01-foundations-nn/MLP%20part%201.ipynb)
 
 ### Today's Progress
 * **The Architecture Shift:**
