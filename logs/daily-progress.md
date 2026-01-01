@@ -221,7 +221,7 @@ That 30-minute broadcasting bug wasn't a dumb mistake - it was a failure to resp
 ## Day 4: Dec 31, 2025
 **Focus:** From Lookup Tables to Gradient Descent: The Neural Network Reincarnation of the Bigram Model (following Andrej Karpathy's "The spelled-out intro to language modeling: building makemore")
 
-**Code:** [Character Bigram Language Model (Neural Net Version)](../01-foundations-nn/character_bigram_language_model_nn.ipynb)
+**Code:** [Character Bigram Language Model (Neural Net Version)](https://github.com/m-mahadi/frontier-ai-365/blob/3bfa4bb9999837c5f8ff20f4caa07861b86e8a3b/01-foundations-nn/MLP%20part%201.ipynb)
 
 ### Today's Progress
 * **The Single-Layer Architecture:**
@@ -298,6 +298,7 @@ Loss: F.cross_entropy(logits, target='l')
 - Can learn context-dependent patterns
 
 But still has a **fatal flaw**: fixed context window. Can't handle variable-length context. 
+
 
 
 
