@@ -304,7 +304,7 @@ But still has a **fatal flaw**: fixed context window. Can't handle variable-leng
 ## Day 6: Jan 2, 2026
 **Focus:** Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split
 
-**Code:** [MLP Finished Implementation](https://github.com/m-mahadi/frontier-ai-365/tree/cd495fc45764ee347654538355ed58e11ca542cd/01-foundations-nn)
+**Code:** [MLP Finished Implementation](https://github.com/m-mahadi/frontier-ai-365/blob/cd495fc45764ee347654538355ed58e11ca542cd/01-foundations-nn/MLP_finished.ipynb)
 
 ### Today's Progress
 * **Data Pipeline Setup:**
@@ -355,6 +355,7 @@ This shouldn't happen. Here's my analysis:
 ### 🏁 Status & Reflections
 * **Tomorrow's Mission:** Debug the code from scratch. Check every tensor shape, verify the loss calculation, tune hyperparameters systematically. Goal: get dev loss down to ~2.0 and actually beat the bigram baseline.
 * **Confidence Level:** Medium. I understand the *architecture*, but clearly something in the *implementation* is broken. Time to debug.
+
 
 
 
