@@ -10,7 +10,7 @@
 * [Day 3: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-3-dec-30-2025)
 * [Day 4: Character Bigram Language Model (Neural Net Version)](#day-4-dec-31-2025)
 * [Day 5: Jan 01 - Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
-* [Day 6: Jan 02 - Building an MLP Character Language Model(part 2) - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
+* [Day 6: Jan 02 - Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
   
 ---
 
@@ -355,6 +355,7 @@ This shouldn't happen. Here's my analysis:
 ### 🏁 Status & Reflections
 * **Tomorrow's Mission:** Debug the code from scratch. Check every tensor shape, verify the loss calculation, tune hyperparameters systematically. Goal: get dev loss down to ~2.0 and actually beat the bigram baseline.
 * **Confidence Level:** Medium. I understand the *architecture*, but clearly something in the *implementation* is broken. Time to debug.
+
 
 
 
