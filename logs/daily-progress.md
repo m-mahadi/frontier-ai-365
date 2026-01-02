@@ -10,6 +10,7 @@
 * [Day 3: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-3-dec-30-2025)
 * [Day 4: Character Bigram Language Model (Neural Net Version)](#day-4-dec-31-2025)
 * [Day 5: Jan 01 - Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
+* [Day 6: Jan 02 - Building an MLP Character Language Model(part 2) - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
   
 ---
 
@@ -298,6 +299,62 @@ Loss: F.cross_entropy(logits, target='l')
 - Can learn context-dependent patterns
 
 But still has a **fatal flaw**: fixed context window. Can't handle variable-length context. 
+
+
+## Day 6: Jan 2, 2026
+**Focus:** Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split
+
+**Code:** [MLP Finished Implementation](https://github.com/m-mahadi/frontier-ai-365/tree/cd495fc45764ee347654538355ed58e11ca542cd/01-foundations-nn)
+
+### Today's Progress
+* **Data Pipeline Setup:**
+    * Implemented the **80/10/10 split** (Training, Dev, Test).
+    * Training set: optimizes parameters (W, b)
+    * Dev set: tunes hyperparameters (hidden size, embedding dim, learning rate)
+    * Test set: kept locked away to evaluate final model - no peeking allowed
+* **Mini-batching:**
+    * Switched from full-batch gradient descent to **mini-batches (size 32)**.
+    * Used `torch.randint` to sample indices. Way faster iteration even though the gradient estimate is noisier.
+* **Learning Rate Search:**
+    * Did a principled search: created `linspace(-3, 0)`, applied as exponent `10^x`, plotted loss.
+    * Found `0.1` was solid starting point, with decay to `0.01` as loss plateaued.
+* **Architecture Scaling:**
+    * Expanded to **200 hidden neurons** and **10-dimensional embeddings**.
+    * Total parameters: **11,897**.
+    * Final Dev Loss: **~2.87**.
+* **Embedding Visualization:**
+    * Plotted the 2D character embeddings.
+    * We should have observed the model clustering vowels (a, e, i, o, u) together and separating the "." token however our model didn't do this.
+    * I will try to fix it tomorrow God willing.
+    * 
+### Key Insights
+* **Why `F.cross_entropy` Matters:** It uses the **log-sum-exp trick** - subtracts max logit before exponentiating to prevent `inf` from large positive numbers. Not just cleaner code, it's required for numerical stability in deep networks.
+* **The `.view()`:** When flattening `[32, 3, 10]` to `[32, 30]`, `.view()` is O(1) because it just changes the tensor's **stride** metadata. No data movement. This is how you think about efficiency in production.
+* **Overfitting Signal:** Training loss slightly lower than dev loss. Classic sign the model is starting to memorize the 182k training examples instead of generalizing.
+
+### The Problem I Hit
+
+**Dev loss (~2.87) is *higher* than the Bigram baseline (~2.45).**
+
+This shouldn't happen. Here's my analysis:
+
+**What's going wrong:**
+- Bigram uses an exhaustive lookup table - perfect counting with zero compression
+- MLP with `block_size=3` has 27³ = 19,683 possible input combinations
+- My model only has ~11k parameters
+- I'm compressing the language representation too aggressively
+
+**Possible causes:**
+1. **Bugs in the code** - most likely, there are errors somewhere in the forward pass or loss calculation
+2. **Hyperparameter issues** - learning rate, hidden size, or embedding dimension suboptimal
+3. **Architectural bottleneck** - fixed 3-character window is too limiting
+
+**The harsh truth:** If I can't beat a simple counting baseline with a neural network, something fundamental is wrong. Either the code has bugs or I'm not giving the model enough capacity.
+
+
+### 🏁 Status & Reflections
+* **Tomorrow's Mission:** Debug the code from scratch. Check every tensor shape, verify the loss calculation, tune hyperparameters systematically. Goal: get dev loss down to ~2.0 and actually beat the bigram baseline.
+* **Confidence Level:** Medium. I understand the *architecture*, but clearly something in the *implementation* is broken. Time to debug.
 
 
 
