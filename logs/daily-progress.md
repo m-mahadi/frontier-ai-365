@@ -11,6 +11,7 @@
 * [Day 4: Character Bigram Language Model (Neural Net Version)](#day-4-dec-31-2025)
 * [Day 5: Jan 01 - Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
 * [Day 6: Jan 02 - Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
+* [Day 7: Jan 03 - Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline](#day-7-jan-3-2026)
   
 ---
 
@@ -355,6 +356,57 @@ This shouldn't happen. Here's my analysis:
 ### 🏁 Status & Reflections
 * **Tomorrow's Mission:** Debug the code from scratch. Check every tensor shape, verify the loss calculation, tune hyperparameters systematically. Goal: get dev loss down to ~2.0 and actually beat the bigram baseline.
 * **Confidence Level:** Medium. I understand the *architecture*, but clearly something in the *implementation* is broken. Time to debug.
+
+## Day 7: Jan 3, 2026
+**Focus:** Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline
+**Code:** 
+- [MLP Self-Implementation - 2D/100 Units](https://github.com/m-mahadi/frontier-ai-365/blob/208a1c274ae136c1dbb10dd223cb3650b72c6f09/01-foundations-nn/MLP_self_implementation%20(2).ipynb)
+- [MLP Self-Implementation - 2D/200 Units](https://github.com/m-mahadi/frontier-ai-365/blob/208a1c274ae136c1dbb10dd223cb3650b72c6f09/01-foundations-nn/MLP_self_200_hidden_layers.ipynb)
+- [MLP Self-Implementation - 7D/200 Units](https://github.com/m-mahadi/frontier-ai-365/blob/208a1c274ae136c1dbb10dd223cb3650b72c6f09/01-foundations-nn/ML_self_implementation_200_hl_%2B_7_dimensions.ipynb)
+- [MLP Self-Implementation - 10D/200 Units](https://github.com/m-mahadi/frontier-ai-365/blob/208a1c274ae136c1dbb10dd223cb3650b72c6f09/01-foundations-nn/ML_self_implementation_200_hl_%2B_10_dims.ipynb)
+
+### Today's Progress
+* **Total Ownership via Self-Implementation:** Instead of just following Karpathy's lecture, I rewrote the entire MLP architecture from scratch four different times. This forced me to internalize every tensor operation without relying on templates.
+* **The Hyperparameter Grid Search:**
+    * **Variation 1 (Baseline):** 2D embeddings + 100 hidden neurons (~3.4k params). Fast to train but hit a representational bottleneck early. Underfitted significantly.
+    * **Variation 2 (More Capacity):** 2D embeddings + 200 hidden neurons (~6.8k params). Marginal improvement. Still bottlenecked by the 2D embedding space.
+    * **Variation 3 (The Winner):** 7D embeddings + 200 hidden neurons (~10k params). This was the sweet spot. Reached **training loss ~2.09, dev loss ~2.17**. Finally crushed the bigram baseline of 2.45.
+    * **Variation 4 (Too Much Capacity):** 10D embeddings + 200 hidden neurons (~11.8k params). Pushed training loss toward 2.0, but dev loss stayed higher. Clear overfitting - the model was memorizing training sequences instead of learning phonetic patterns.
+* **Optimization Deep Dive:**
+    * Started with learning rate `0.1`, stepped down to `0.01`, finally settled at `0.001` for the tail end of training.
+    * Ran up to **200k iterations** on the 7D model to let it fully settle into the loss valley.
+    * Verified that `F.cross_entropy` provides rock-solid numerical stability compared to manual softmax.
+
+### Key Insights
+* **The Overfitting Frontier:** The 10D experiment taught me a critical lesson - more parameters aren't always better. At 10 dimensions, the character latent space became so sparse that the model started memorizing training noise. The gap between training and dev loss widened significantly.
+* **Embedding Dimension > Hidden Layer Size:** Going from 100 to 200 hidden neurons provided less gain than increasing embedding dimensionality from 2D to 7D. The bottleneck in my Day 7 disaster was the **input representation**, not the processing power of the hidden layer.
+* **Learning Rate Decay is Non-Negotiable:** Keeping a constant `0.1` learning rate causes noisy oscillations near local minima. Stepping down to `0.001` lets the weights settle into deeper valleys. This is why modern optimizers have built-in schedulers.
+* **Distributed Representations Work:** Even with overfitting, the 10D model showed vowels and consonants clustering with much higher resolution. This is where the "intelligence" lives - the model learned semantic similarity without being told what a vowel is.
+
+### The Reality Check
+
+**Yesterday's disaster (loss 2.87) → Today's victory (loss 2.09).**
+
+What changed?
+1. **Fixed the code bugs** (there were errors in the forward pass)
+2. **Scaled embedding dimensions** from 2D to 7D
+3. **Ran more iterations** (200k vs 50k)
+4. **Proper learning rate decay** instead of constant rate
+
+The 7D model proves the MLP architecture works. The 10D model proves you can have too much capacity for the data size.
+
+### Architecture Bottlenecks
+
+Even with perfect hyperparameters, I'm still limited by `block_size=3`. This is a **Trigram MLP** - it's blind to any character at position n-4 or earlier.
+
+To truly beat 2.0 loss, I don't need more embedding dimensions.
+
+### 🏁 Status & Reflections
+* **Current Milestone:** Consistently beating statistical baselines. Can now diagnose whether a model is bottlenecked by embedding dimensionality or hidden layer capacity just by looking at loss curves.
+* **What I Learned About Debugging:**
+    - Yesterday's failure wasn't wasted time - it taught me how to systematically isolate problems
+    - Loss curves tell you everything if you know how to read them
+* **Next Step:** Moving to Part 3 of makemore - Kaiming Initialization and Batch Normalization. Time to stop guessing about weight initialization and understand the math that keeps gradients from exploding or vanishing.
 
 
 
