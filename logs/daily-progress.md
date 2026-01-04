@@ -12,6 +12,7 @@
 * [Day 5: Jan 01 - Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
 * [Day 6: Jan 02 - Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
 * [Day 7: Jan 03 - Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline](#day-7-jan-3-2026)
+* [Day 8: Jan 04 - Fixing Dead Neurons and the Hockey Stick Loss](#day-8-jan-4-2026)
   
 ---
 
@@ -407,6 +408,60 @@ To truly beat 2.0 loss, I don't need more embedding dimensions.
     - Yesterday's failure wasn't wasted time - it taught me how to systematically isolate problems
     - Loss curves tell you everything if you know how to read them
 * **Next Step:** Moving to Part 3 of makemore - Kaiming Initialization and Batch Normalization. Time to stop guessing about weight initialization and understand the math that keeps gradients from exploding or vanishing.
+
+## Day 8: Jan 4, 2026
+**Focus:** The Calculus of Initialization - Fixing Dead Neurons and the Hockey Stick Loss (Following Karpathy's Building Makemore part 3)
+**Code:** [Makemore Part 3: Activations & Gradients](https://github.com/m-mahadi/frontier-ai-365/blob/8238b273da07f1d8a374ca4f29347baca50c6cfb/01-foundations-nn/makemore_mlp_part2.ipynb)
+
+### The Reality Check
+
+Today was rough. Had zero motivation. The kind of day where opening the laptop feels like a chore. Brain foggy, energy low.
+
+But I made a rule: no zero days. Even if I can only do 30 minutes, that's 30 minutes more than nothing.
+
+So I opened the notebook.
+
+### Today's Progress (The Short Version)
+
+* **The "Hockey Stick" Loss Problem:**
+    * Noticed the initial loss was ~27.0 instead of the expected ~3.29 (which is `-ln(1/27)` - uniform probability over 27 characters).
+    * **The cause:** Initialized weights and biases too large. The model was starting out "confidently wrong" - assigning near-100% probability to random characters.
+    * **The fix:** Scaled down `W2` and `b2` so the logits start near zero. This forces the model to begin with a roughly uniform distribution instead of random garbage.
+* **Tanh Saturation Deep Dive:**
+    * Investigated the "dead neuron" problem. When pre-activation values going into `tanh` are too large (either positive or negative), the output gets squashed to -1 or +1.
+    * **The consequence:** The local derivative `(1 - tanh²)` becomes effectively zero. Gradients can't flow backward. The neuron is dead - it's not learning anything.
+* **What I Actually Accomplished:** 
+    * 30 minutes of focused work
+    * Understood *why* initialization matters at a first-principles level
+    * Diagnosed saturated neurons by looking at activation histograms
+
+### Key Insights
+
+**Initialization isn't just about "making training faster" - it's about making training *possible*.**
+
+If your weights are too large:
+- Neurons saturate instantly
+- Gradients vanish
+- The network can't "feel" which direction to move
+- You're dead in the water before iteration 1
+
+**The Softmax Confidence Problem:**
+
+High initial loss happens because the model is confidently wrong. By forcing small initial weights, we make the model start uncertain (uniform distribution). This is the mathematically optimal starting point - the model should be *maximally confused* at initialization, then learn from there.
+
+**Gradient Flow is Everything:**
+
+### The Mental Game
+
+Here's what I learned today that has nothing to do with neural networks:
+
+**Motivation is bullshit. Discipline is what matters.**
+
+I didn't *want* to study today. I felt like doing nothing. But I have a rule: no zero days. Even 30 minutes counts.
+
+And you know what happened? After 15 minutes of forcing myself to focus, I actually got interested. The activation histogram visualization pulled me in. By minute 30, I was genuinely engaged.
+
+The lesson: **Start anyway.** Motivation follows action, not the other way around.
 
 
 
