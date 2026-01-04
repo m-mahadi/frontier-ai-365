@@ -411,6 +411,7 @@ To truly beat 2.0 loss, I don't need more embedding dimensions.
 
 ## Day 8: Jan 4, 2026
 **Focus:** The Calculus of Initialization - Fixing Dead Neurons and the Hockey Stick Loss (Following Karpathy's Building Makemore part 3)
+
 **Code:** [Makemore Part 3: Activations & Gradients](https://github.com/m-mahadi/frontier-ai-365/blob/8238b273da07f1d8a374ca4f29347baca50c6cfb/01-foundations-nn/makemore_mlp_part2.ipynb)
 
 ### The Reality Check
@@ -462,6 +463,7 @@ I didn't *want* to study today. I felt like doing nothing. But I have a rule: no
 And you know what happened? After 15 minutes of forcing myself to focus, I actually got interested. The activation histogram visualization pulled me in. By minute 30, I was genuinely engaged.
 
 The lesson: **Start anyway.** Motivation follows action, not the other way around.
+
 
 
 
