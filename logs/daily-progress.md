@@ -13,6 +13,7 @@
 * [Day 6: Jan 02 - Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
 * [Day 7: Jan 03 - Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline](#day-7-jan-3-2026)
 * [Day 8: Jan 04 - Fixing Dead Neurons and the Hockey Stick Loss](#day-8-jan-4-2026)
+* [Day 9: Jan 05 - Reading the Paper That Started It All - Bengio et al. (2003)](#day-9-jan-5-2026)
   
 ---
 
@@ -465,6 +466,71 @@ And you know what happened? After 15 minutes of forcing myself to focus, I actua
 The lesson: **Start anyway.** Motivation follows action, not the other way around.
 
 
+## Day 9: Jan 5, 2026
+**Focus:** Reading the Paper That Started It All - Bengio et al. (2003)
+**Reading:** [A Neural Probabilistic Language Model](https://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf)
+
+### The Reality Check (Again)
+
+Another low-energy day. Spent most of it dealing with business stuff. Not ideal, but that's reality when you're building multiple things at once.
+
+Could have called it a zero day. Instead, spent an hour reading the paper that literally invented neural language models as we know them.
+
+### Today's Progress
+
+* **Theoretical Deep Dive:** Shifted from coding to understanding the foundational paper. This is the 2003 work that birthed modern embedding-based NLP.
+* **The Curse of Dimensionality Problem:**
+    * Traditional n-gram models fail because possible word sequences grow exponentially with vocabulary: V^n combinations.
+    * With a 100k word vocabulary, even trigrams need to track 10^15 possible sequences.
+    * You'll never see most of these sequences in training data, no matter how big your corpus.
+* **Distributed Representations - The Solution:**
+    * Core insight: map each word to a point in continuous space (ℝ^m).
+    * Words with similar meanings cluster together geometrically.
+    * **The magic:** "The cat is on the mat" and "A dog is on the rug" have similar geometric trajectories in vector space, even if you've never seen the exact second sentence before.
+* **The 2003 Architecture:**
+    * **Embedding Layer:** Shared matrix C that maps word indices to feature vectors
+    * **Hidden Layer:** tanh non-linearity processing concatenated context
+    * **Output Layer:** softmax over entire vocabulary V
+
+### Key Insights
+
+**Similarity = Generalization:**
+
+N-gram model: If you haven't seen "The orange is..." in training, you have zero prediction ability. No data = no probability estimate.
+
+Bengio's model: If you've seen "The apple is...", the model leverages the fact that "orange" and "apple" are close in embedding space to make intelligent guesses. It generalizes from similar contexts.
+
+**This is why embeddings changed everything.**
+
+**The Trade-off They Made:**
+
+The paper openly acknowledges neural models are **way slower** than n-gram counting. But they provide superior generalization by learning the *joint probability function* of word sequences instead of just memorizing counts.
+
+2003 compute couldn't handle this at scale. 2026 compute makes it trivial. That's why these ideas took 15+ years to dominate.
+
+Everything I've learned so far (character embeddings, hidden layers, softmax output) is literally implementing this 2003 architecture. The only differences:
+- We're working at character level, they worked at word level
+- We're using tiny datasets, they used millions of words
+- Modern tools make the implementation 100x simpler
+
+But the math is **identical**.
+
+### What I Learned About Learning
+
+**Reading primary literature > watching tutorials.**
+
+I could have watched another YouTube video explaining embeddings. Instead, I went to the source. Now I understand:
+- *Why* embeddings were invented (curse of dimensionality)
+- *What problem* they solved (generalization from sparse data)
+- *What trade-offs* were made (compute vs statistical efficiency)
+
+### 🏁 Status & Reflections
+
+* **What I Learned About Productivity:** Even on busy days with other commitments, one focused hour on primary literature is valuable. Not every day needs to be a coding marathon.
+* **Next Step:** Back to Part 3 of makemore tomorrow. Apply Batch Normalization to fix the saturated neurons, then visualize the activation histograms to confirm the fix worked.
+
+Progress isn't always linear. Some days you code, some days you read, some days you handle business. All of it moves you forward.
+Tomorrow InshaAllah we start cooking again.
 
 
 
