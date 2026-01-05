@@ -9,11 +9,11 @@
 * [Day 2: Starting the journey into Language Modeling – Bigram Character-Level Model](#day-2-dec-29-2025)
 * [Day 3: Normalization, Sampling, and the Mathematical Reality of Negative Log Likelihood](#day-3-dec-30-2025)
 * [Day 4: Character Bigram Language Model (Neural Net Version)](#day-4-dec-31-2025)
-* [Day 5: Jan 01 - Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
-* [Day 6: Jan 02 - Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
-* [Day 7: Jan 03 - Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline](#day-7-jan-3-2026)
-* [Day 8: Jan 04 - Fixing Dead Neurons and the Hockey Stick Loss](#day-8-jan-4-2026)
-* [Day 9: Jan 05 - Reading the Paper That Started It All - Bengio et al. (2003)](#day-9-jan-5-2026)
+* [Day 5: Building an MLP Character Language Model(part 1)](#day-5-jan-1-2026)
+* [Day 6: Scaling with MLP - Mini-batching, Learning Rate Search, and the Train/Dev/Test Split](#day-6-jan-2-2026)
+* [Day 7: Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline](#day-7-jan-3-2026)
+* [Day 8: Fixing Dead Neurons and the Hockey Stick Loss](#day-8-jan-4-2026)
+* [Day 9: Reading the Paper That Started It All - Bengio et al. (2003)](#day-9-jan-5-2026)
   
 ---
 
@@ -531,6 +531,7 @@ I could have watched another YouTube video explaining embeddings. Instead, I wen
 
 Progress isn't always linear. Some days you code, some days you read, some days you handle business. All of it moves you forward.
 Tomorrow InshaAllah we start cooking again.
+
 
 
 
