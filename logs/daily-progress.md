@@ -536,6 +536,7 @@ Tomorrow InshaAllah we start cooking again.
 
 ## Day 10: Jan 6, 2026
 **Focus:** Batch Normalization Deep Dive - Understanding Why Networks Break
+
 **Watching:** makemore Part 3 - Karpathy's lecture on activation statistics and BatchNorm
 
 ### The Reality Check
@@ -600,6 +601,7 @@ Bengio's paper showed embeddings enable generalization. BatchNorm (2015) showed 
 ### 🏁 Status & Reflections
 
 * **Current Milestone:** Deep conceptual understanding of the BatchNorm layer and why it exists. Ready to implement tomorrow.
+
 
 
 
