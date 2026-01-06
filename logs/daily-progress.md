@@ -14,6 +14,7 @@
 * [Day 7: Hyperparameter Warfare - MLP Self-Implementation and Crushing the Baseline](#day-7-jan-3-2026)
 * [Day 8: Fixing Dead Neurons and the Hockey Stick Loss](#day-8-jan-4-2026)
 * [Day 9: Reading the Paper That Started It All - Bengio et al. (2003)](#day-9-jan-5-2026)
+* [Day 10: Batch Normalization Deep Dive - Understanding Why Networks Break](#day-10-jan-6-2026)
   
 ---
 
@@ -531,6 +532,74 @@ I could have watched another YouTube video explaining embeddings. Instead, I wen
 
 Progress isn't always linear. Some days you code, some days you read, some days you handle business. All of it moves you forward.
 Tomorrow InshaAllah we start cooking again.
+
+
+## Day 10: Jan 6, 2026
+**Focus:** Batch Normalization Deep Dive - Understanding Why Networks Break
+**Watching:** makemore Part 3 - Karpathy's lecture on activation statistics and BatchNorm
+
+### The Reality Check
+
+No coding today. Just pure conceptual learning - following through Karpathy's lecture, pausing every few minutes to actually *think* about what's happening.
+
+### Today's Progress
+
+* **Watched the Full Lecture:** Made it through Part 3 - the one about saturated activations, proper initialization, and BatchNorm. Took notes, rewound sections multiple times, made sure every concept actually landed.
+
+* **The Saturation Problem Finally Makes Sense:**
+    * Tanh squashes everything to [-1, 1]. Sounds harmless until you see what happens.
+    * When inputs get too large (|x| >> 1), tanh saturates → outputs stuck at ±1 → "white" areas in histograms.
+    * The killer: tanh derivative = 1 - tanh²(x). When tanh outputs ±1, derivative → 0. **No gradient = dead neuron.**
+    * This isn't a minor issue. This is how entire layers just *stop learning* during training.
+
+* **Weight Initialization - Not Random At All:**
+    * Naive approach: `torch.randn(fan_in, fan_out)` → gradients explode or vanish within a few layers.
+    * **Kaiming Initialization** for tanh: Scale weights by `(5/3) / sqrt(fan_in)`.
+    * The math behind it: You want activations to stay roughly Gaussian (mean 0, std ~1) as they pass through layers. The gain factor (5/3 for tanh) comes from analyzing how variance propagates through the non-linearity.
+    * Different non-linearities need different gains. ReLU is different. This is why initialization papers exist.
+
+* **Batch Normalization - The Game Changer:**
+    * **The core idea:** Don't just initialize well - *force* activations to stay Gaussian throughout training.
+    * How: At each layer, normalize the pre-activations to N(0,1) using the batch statistics, then scale/shift with learnable γ and β.
+    * Order matters: Linear → BatchNorm → Tanh (normalize *before* the non-linearity).
+    * Training vs Inference split:
+        * Training: Use current batch statistics
+        * Inference: Use running averages (exponential moving average with momentum ~0.1)
+
+* **Why BatchNorm Changed Everything:**
+    * Allows 10x higher learning rates (0.1 → 1.0)
+    * Much less sensitive to weight initialization
+    * Slight regularization effect (batch coupling adds noise)
+    * Made very deep networks (ResNets) actually trainable
+
+* **The Diagnostic Tools I Need to Learn:**
+    * **Activation histograms:** Are neurons alive or saturated?
+    * **Gradient histograms:** Is information flowing backward?
+    * **Update-to-data ratio:** `|param.update| / |param.data|` should be ~1e-3. Too small = slow learning, too large = unstable.
+    * These visualizations are how senior engineers *know* their network is healthy, not just *hope* it is.
+
+### Key Insights
+
+**Karpathy's Warning About BatchNorm:**
+
+"I have shot myself in the foot with this layer over and over... Avoid if possible."
+
+The problem: BatchNorm couples examples in a batch together. Your prediction on one example depends on what else is in the batch. This causes:
+- Subtle bugs during inference if you forget to switch modes
+- Non-deterministic behavior that's hell to debug
+- Issues with small batches
+
+Modern alternatives (LayerNorm, GroupNorm) fix this. Transformers use LayerNorm exclusively. But BatchNorm is still everywhere in CNNs.
+
+**The Connection to Bengio 2003:**
+
+Yesterday I read about why embeddings exist. Today I learned about why we can actually train deep networks with those embeddings. 
+
+Bengio's paper showed embeddings enable generalization. BatchNorm (2015) showed how to keep those embeddings from destroying themselves during training. These papers are 12 years apart, but they're part of the same story.
+
+### 🏁 Status & Reflections
+
+* **Current Milestone:** Deep conceptual understanding of the BatchNorm layer and why it exists. Ready to implement tomorrow.
 
 
 
