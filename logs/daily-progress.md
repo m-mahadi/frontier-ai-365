@@ -15,6 +15,7 @@
 * [Day 8: Fixing Dead Neurons and the Hockey Stick Loss](#day-8-jan-4-2026)
 * [Day 9: Reading the Paper That Started It All - Bengio et al. (2003)](#day-9-jan-5-2026)
 * [Day 10: Batch Normalization Deep Dive - Understanding Why Networks Break](#day-10-jan-6-2026)
+* [Day 11: Backpropagation Ninja Training - Manual Gradient Calculation Through Batch Normalization](#day-11-jan-7-2026)
   
 ---
 
@@ -602,6 +603,49 @@ Bengio's paper showed embeddings enable generalization. BatchNorm (2015) showed 
 
 * **Current Milestone:** Deep conceptual understanding of the BatchNorm layer and why it exists. Ready to implement tomorrow.
 
+## Day 11: Jan 7, 2026
+**Focus:** Backpropagation Ninja Training - Manual Gradient Calculation Through Batch Normalization
+
+**Code:** [Makemore Part 4: Backprop Exercise 1](https://github.com/m-mahadi/frontier-ai-365/blob/e84184e6e7b3b69fbcf17d860cffd173df051864/01-foundations-nn/build_makemore_backprop_ninja%20_exercise_1.ipynb)
+
+### Today's Progress
+
+* **The Challenge:** Manually computed gradients for every single intermediate variable in the forward pass - no PyTorch autograd shortcuts allowed.
+* **What I Actually Did:**
+    * Solved Exercise 1 from Karpathy's "Becoming a Backprop Ninja".
+    * Manually backpropagated through 26 different tensors, from the loss all the way back to the character embeddings.
+    * Got ~80% of the gradients correct on my own. The remaining 20% required checking Karpathy's solution to understand where my chain rule application broke down.
+* **Validation:**
+    * Used the `cmp()` utility function to compare my manual gradients against PyTorch's autograd.
+    * Got "exact: True" for the first ~10 variables (logprobs through logits).
+    * Got "approximate: True" with maxdiff ~1e-9 for BatchNorm variables - good enough, just floating-point precision differences.
+
+### Key Insights
+
+**Batch Normalization Backprop is Hell:**
+
+The forward pass has 7 intermediate variables just for BatchNorm. The backward pass requires carefully tracking how gradients flow through:
+- The variance calculation (with Bessel's correction n-1)
+- The standard deviation (with the 1e-5 epsilon for stability)
+- The mean subtraction
+- The normalization
+- The scale (gamma) and shift (beta)
+
+Every single one of these steps has a different local derivative. Miss one and your entire gradient is wrong.
+
+The parts I struggled with:
+1. **The logit_maxes gradient:** Forgot that when you subtract the max for numerical stability, the gradient has to flow back through the max operation. This requires `F.one_hot` indexing to correctly distribute gradients only to the maximum element in each row.
+2. **The BatchNorm mean backward:** Got confused about how `dbnmeani` needs to be broadcast back to `dhprebn`. The mean is computed over the batch dimension, so its gradient needs to be distributed equally across all batch elements.
+3. **The embedding gradient accumulation:** Used a double loop instead of a more efficient scatter operation. It works but it's slow.
+   
+### The Reality Check
+
+**Honest reflection:** I spent 3+ hours on this. Some gradients took 10 minutes each. The BatchNorm backward pass alone probably took 45 minutes of staring at equations and debugging tensor shapes.
+
+
+### 🏁 Status & Reflections
+
+Still grinding. One brutal exercise at a time. Alhamdulillah for progress, even when it's hard-won.
 
 
 
