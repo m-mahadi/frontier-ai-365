@@ -16,6 +16,7 @@
 * [Day 9: Reading the Paper That Started It All - Bengio et al. (2003)](#day-9-jan-5-2026)
 * [Day 10: Batch Normalization Deep Dive - Understanding Why Networks Break](#day-10-jan-6-2026)
 * [Day 11: Backpropagation Ninja Training - Manual Gradient Calculation Through Batch Normalization](#day-11-jan-7-2026)
+* [Day 12: Backpropagation Through BatchNorm - The Calculus Reality Check](#day-12-jan-8-2026)
   
 ---
 
@@ -649,6 +650,94 @@ Still grinding. One brutal exercise at a time. Alhamdulillah for progress, even 
 
 
 
+
+
+## Day 12: Jan 8, 2026
+**Focus:** Backpropagation Through BatchNorm - The Calculus Reality Check
+
+**Code:** [Makemore Part 4: Exercises 2, 3, 4](https://github.com/m-mahadi/frontier-ai-365/blob/518dfa847d647be2d8996bb7c6681f5a71e65048/01-foundations-nn/build_makemore_backprop_ninja_exercise_2%2C3%2C4.ipynb)
+
+### Today's Progress
+
+* **Exercise 2 - Cross Entropy in One Shot:**
+    * Collapsed the entire softmax → log → NLL chain into a single backward pass.
+    * The gradient simplifies beautifully: `dlogits = softmax(logits); dlogits[range(n), Yb] -= 1; dlogits /= n`
+    * This is exactly what `F.cross_entropy` does under the hood - subtract 1 from the correct class probability, divide by batch size. That's it.
+* **Exercise 3 - BatchNorm Forward Pass Compression:**
+    * Rewrote the 7-line BatchNorm forward pass into a single line: `hpreact_fast = bngain * (hprebn - hprebn.mean(0, keepdim=True)) / torch.sqrt(hprebn.var(0, keepdim=True, unbiased=True) + 1e-5) + bnbias`
+    * Maxdiff: 4.7e-7. Good enough. The forward pass makes sense now.
+* **Exercise 4 - Full Manual Backprop Training Loop:**
+    * Implemented the entire training loop with manual gradients - no `.backward()` shortcuts.
+    * Used the one-line gradients from Exercises 2 and 3 to make it cleaner.
+    * **The Problem:** Exercise 3's backward pass (BatchNorm gradient) completely broke me.
+
+### The Harsh Truth
+
+**I couldn't derive the backward passes myself.**
+
+The final line looks like this:
+```python
+dhprebn = bngain * bnvar_inv / n * (n*dhpreact - dhpreact.sum(0) - n/(n-1)*bnraw*(dhpreact*bnraw).sum(0))
+```
+
+I stared at this for 30 minutes. I understand *what* it does (propagate gradients backward through normalization). I understand *why* it's needed (chain rule through mean and variance).
+
+But I cannot derive it from first principles. My calculus is too weak.
+
+### What I Learned (Conceptually)
+
+* **Cross Entropy Gradient:** The softmax + NLL derivative is elegant because the gradient literally *is* the probability distribution, adjusted by subtracting 1 from the correct class. The model is "pulled" toward the right answer proportionally to how confident it was in the wrong answer.
+  
+* **BatchNorm is Hell:** Forward pass is simple. Backward pass requires tracking gradients through: mean calculation, variance calculation (with Bessel's correction), standard deviation (with epsilon for stability), normalization, scale, and shift. Every single step has a different local derivative. Miss one and everything breaks.
+
+### Watched: Makemore Part 5
+
+* Didn't code along. Just watched to get the concepts.
+* Understood the high-level ideas but some of the advanced tricks went over my head.
+* Will revisit later after building a stronger foundation.
+
+### The Reality Check
+
+**My calculus is too weak for deep learning right now.**
+
+I can implement architectures. I can tune hyperparameters. I can debug training loops. But when it comes to deriving gradients for complex layers like BatchNorm, I hit a wall.
+
+This isn't optional knowledge - it's foundational. If I can't derive these gradients, I don't truly understand what's happening. I'm just copying formulas.
+
+### The Plan Forward
+
+**Strategic Pivot:** Instead of grinding through more makemore exercises I don't fully understand, I'm going to:
+
+1. **Move to "Let's Build GPT from Scratch"** - Get the big picture of how Transformers work
+2. **Watch the Tokenizer video** - Understand how text actually gets fed into models
+3. **Circle back to fundamentals** - Rewrite from scratch by myself(NO HELP):
+    * Simple neural network (MNIST-level)
+    * Manual backprop (micrograd-level)
+    * Bigram model
+    * Basic MLP
+
+4. **Fix the calculus gap** - This semester, I need to strengthen my math. Partial derivatives, chain rule, matrix calculus. Non-negotiable.
+
+5. **And also do stanford's CSE229** 
+
+**I will NOT touch Makemore Part 5+ right now.** Those exercises assume a level of mathematical maturity I don't have yet. Coming back to them after strengthening calculus will be way more productive than bashing my head against derivations I can't follow.
+
+### 🏁 Status & Reflections
+
+* **Current Milestone:** Completed Makemore Part 4 exercises (with help). Identified a critical gap in my mathematical foundation.
+* **Honest Assessment:** I can *implement* neural networks. I can *train* them. But I can't *derive* the math for complex layers from first principles. That's a problem.
+* **Confidence Level:** Medium. I'm not demoralized - I'm calibrated. I know what I know, and I know what I don't know. The gap is clear. The path forward is clear.
+* **Next Step Tomorrow (InshaAllah):** Start "Let's Build GPT from Scratch". Get the big picture before diving deeper into the details.
+
+---
+
+**The Mindset Shift:**
+
+Progress isn't linear. Sometimes you need to zoom out before you can zoom in. I could keep grinding through exercises I half-understand, or I could build a broader foundation first and come back stronger.
+
+I'm choosing the second path.
+
+Still grinding. One honest day at a time. Alhamdulillah for the clarity to recognize my own limits.
 
 
 
