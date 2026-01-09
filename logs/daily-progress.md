@@ -17,6 +17,8 @@
 * [Day 10: Batch Normalization Deep Dive - Understanding Why Networks Break](#day-10-jan-6-2026)
 * [Day 11: Backpropagation Ninja Training - Manual Gradient Calculation Through Batch Normalization](#day-11-jan-7-2026)
 * [Day 12: Backpropagation Through BatchNorm - The Calculus Reality Check](#day-12-jan-8-2026)
+* [Day 13: Research Deep Dive - Multi-Hop Reasoning & Knowledge Graph RAG Architectures](#day-13-jan-9-2026)
+  
   
 ---
 
@@ -738,6 +740,50 @@ Progress isn't linear. Sometimes you need to zoom out before you can zoom in. I 
 I'm choosing the second path.
 
 Still grinding. One honest day at a time. Alhamdulillah for the clarity to recognize my own limits.
+
+
+## Day 13: Jan 9, 2026
+**Focus:** Research Deep Dive - Multi-Hop Reasoning & Knowledge Graph RAG Architectures
+
+**Reading:** 
+- [HotPotQA: A Dataset for Diverse, Explainable Multi-hop Question Answering](https://arxiv.org/abs/1809.09600)
+- [From Local to Global: A GraphRAG Approach to Query-Focused Summarization](https://arxiv.org/abs/2404.16130)
+
+### Today's Progress
+
+* **Shifted Gears to Research Mode:** Spent the majority of the day working on our research project architecture. Had to step away from the neural network fundamentals to focus on reading and understanding cutting-edge RAG systems.
+* **HotPotQA Paper Analysis:**
+    * Studied the multi-hop reasoning dataset design - how they use Wikipedia hyperlinks to create questions requiring reasoning across multiple documents.
+    * Understood the bridge entity concept - intermediate entities that connect two pieces of information (e.g., "Who was the singer of Radiohead?" → Thom Yorke → his birthday).
+    * Analyzed their three types of multi-hop reasoning: Type I (inferring bridge entities), Type II (locating entities by multiple properties), Type III (inferring properties through bridge entities).
+    * Key insight: They provide **supporting facts** as ground truth - not just the answer, but which sentences led to it. This enables explainable AI.
+* **GraphRAG Paper Analysis:**
+    * Deep dive into Microsoft Research's graph-based RAG approach for global sensemaking questions.
+    * Traditional RAG fails on questions like "What are the main themes in the dataset?" because it's designed for fact retrieval, not corpus-wide understanding.
+    * GraphRAG's pipeline: Extract entities/relationships → Build knowledge graph → Detect communities (using Leiden algorithm) → Generate hierarchical summaries → Answer queries via map-reduce over community summaries.
+    * **The breakthrough:** Using graph community detection to partition knowledge into thematic clusters, then summarizing those clusters hierarchically. This allows answering global questions without retrieving specific facts.
+* **Architecture Design Work:** Applied insights from both papers to our research project. (Details classified for now - research in progress.)
+
+**The Connection Between Papers:**
+* HotPotQA shows *what* multi-hop reasoning looks like (bridge entities, comparison questions, property inference).
+* GraphRAG shows *how* to implement a system that can actually handle these types of queries at scale (knowledge graphs + community detection + hierarchical summarization).
+* Both papers emphasize **explainability** - HotPotQA through supporting facts, GraphRAG through traceable community summaries with citations.
+
+### Why This Matters for Fundamentals
+
+**These aren't just research papers - they're showing me what deep learning is actually *for*.**
+
+The fundamentals I'm learning aren't abstract math - they're the building blocks for systems like this.
+
+### The Reality Check
+
+**I didn't write a single line of code today. Did I make progress?**
+
+Yes. Research is part of the process. Understanding *what* has already been built and *why* certain architectural choices were made is just as important as implementing from scratch.
+
+But I also need to be honest: reading papers is easier than coding. It's cognitively demanding, but there's no compiler yelling at you for syntax errors. No debugging. No grinding through edge cases.
+
+**The balance:** Today was research. Tomorrow goes back to implementation. I can't let research become a procrastination tool.
 
 
 
