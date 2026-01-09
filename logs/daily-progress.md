@@ -762,12 +762,7 @@ Still grinding. One honest day at a time. Alhamdulillah for the clarity to recog
     * Traditional RAG fails on questions like "What are the main themes in the dataset?" because it's designed for fact retrieval, not corpus-wide understanding.
     * GraphRAG's pipeline: Extract entities/relationships → Build knowledge graph → Detect communities (using Leiden algorithm) → Generate hierarchical summaries → Answer queries via map-reduce over community summaries.
     * **The breakthrough:** Using graph community detection to partition knowledge into thematic clusters, then summarizing those clusters hierarchically. This allows answering global questions without retrieving specific facts.
-* **Architecture Design Work:** Applied insights from both papers to our research project. (Details classified for now - research in progress.)
-
-**The Connection Between Papers:**
-* HotPotQA shows *what* multi-hop reasoning looks like (bridge entities, comparison questions, property inference).
-* GraphRAG shows *how* to implement a system that can actually handle these types of queries at scale (knowledge graphs + community detection + hierarchical summarization).
-* Both papers emphasize **explainability** - HotPotQA through supporting facts, GraphRAG through traceable community summaries with citations.
+* **Architecture Design Work:** (Details classified for now - research in progress.)
 
 ### Why This Matters for Fundamentals
 
@@ -784,6 +779,7 @@ Yes. Research is part of the process. Understanding *what* has already been buil
 But I also need to be honest: reading papers is easier than coding. It's cognitively demanding, but there's no compiler yelling at you for syntax errors. No debugging. No grinding through edge cases.
 
 **The balance:** Today was research. Tomorrow goes back to implementation. I can't let research become a procrastination tool.
+
 
 
 
