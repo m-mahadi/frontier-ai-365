@@ -18,6 +18,7 @@
 * [Day 11: Backpropagation Ninja Training - Manual Gradient Calculation Through Batch Normalization](#day-11-jan-7-2026)
 * [Day 12: Backpropagation Through BatchNorm - The Calculus Reality Check](#day-12-jan-8-2026)
 * [Day 13: Research Deep Dive - Multi-Hop Reasoning & Knowledge Graph RAG Architectures](#day-13-jan-9-2026)
+* [Day 14: Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations](#day-14-jan-10-2026)
   
   
 ---
@@ -780,6 +781,90 @@ But I also need to be honest: reading papers is easier than coding. It's cogniti
 
 **The balance:** Today was research. Tomorrow goes back to implementation. I can't let research become a procrastination tool.
 
+
+
+
+## Day 14: Jan 10, 2026
+**Focus:** Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations
+
+**Code:** [Let's Build GPT - Part 1](https://github.com/m-mahadi/frontier-ai-365/blob/820c2e6d0b25108b9cbe6658e9986423086a011e/02-gpt-architectures/let's_build_gpt(incomplete).ipynb)
+
+**Watching:** Andrej Karpathy's "Let's build GPT: from scratch, in code, spelled out"
+
+### Today's Progress
+
+* **Dataset Setup - Tiny Shakespeare:**
+    * Downloaded and loaded the classic 1.1M character Shakespeare corpus.
+    * Built a character-level vocabulary (65 unique characters including punctuation and newlines).
+    * Implemented encode/decode functions using simple dictionary mappings (`stoi`, `itos`).
+* **Batching & Context Windows:**
+    * Implemented the `get_batch()` function to sample random chunks of `block_size=8` tokens.
+    * **Key insight:** A single batch of shape `(4, 8)` actually contains 32 training examples (4 sequences × 8 positions), because each position predicts the next character. This is the "sliding window" trick that makes character-level LMs efficient.
+    * Visualized how context grows: `[18]` predicts `47`, then `[18, 47]` predicts `56`, etc.
+* **Bigram Language Model (Neural Net Version):**
+    * Built the simplest possible language model: a lookup table where each token directly predicts the next token's logits.
+    * Architecture: Just an embedding table of shape `(vocab_size, vocab_size)`. No hidden layers. No transformations.
+    * Loss started at ~4.88 (random guessing entropy for 65 classes is `-ln(1/65) ≈ 4.17`, so close to theoretical maximum).
+* **Training Loop:**
+    * Implemented basic SGD with Adam optimizer (`lr=1e-1`).
+    * Trained for 10,000 steps with batch size 32.
+    * Final loss: **2.44** (compared to starting loss of 4.88).
+    * Generated samples went from complete garbage to... slightly structured garbage. Model learned basic bigram patterns like "ch", "th", "ed" but still no long-range coherence.
+* **Self-Attention Mathematical Foundation:**
+    * **The Core Trick:** Computing weighted averages of past tokens using matrix multiplication.
+    * Implemented three versions of the same operation:
+        1. **Naive loops:** Double for-loop computing `mean(x[b, :t+1])` for each position.
+        2. **Matrix multiply:** Using a lower-triangular weight matrix to aggregate past tokens in one shot.
+        3. **Softmax version:** Masking future positions with `-inf`, then applying softmax to get attention weights.
+    * **The revelation:** All three produce identical results (`torch.allclose() = True`), but version 3 is what Transformers actually use because it generalizes to learned attention patterns.
+* **Research Work:** Continued working on the research project architecture (details classified).
+
+### Key Insights
+
+**Self-Attention = Learnable Weighted Averaging:**
+* Version 1 (loops): Compute running average manually. Conceptually clear but slow.
+* Version 2 (matrix multiply): Use a triangular matrix to encode "only attend to past tokens." Fast but fixed weights.
+* Version 3 (softmax): Replace fixed weights with learned weights. This is self-attention.
+* **The trick:** `masked_fill(tril == 0, float('-inf'))` ensures future tokens are ignored. After softmax, their weights become zero. Elegant as hell.
+
+**Why This Works:**
+```python
+wei = torch.tril(torch.ones(T, T))  # Lower triangular matrix
+wei = wei / wei.sum(1, keepdim=True)  # Normalize rows to sum to 1
+xbow = wei @ x  # Weighted average of past embeddings
+```
+This is just computing `x[t] = average of x[0:t+1]` in parallel for all `t`. No loops needed.
+
+**The Bridge to Transformers:**
+* Right now, `wei` is uniform (every past token gets equal weight).
+* In a real Transformer, `wei` comes from the Query-Key similarity: `wei = softmax(Q @ K.T / sqrt(d_k))`.
+* This lets the model **learn** which past tokens are relevant, instead of averaging everything equally.
+
+### The Mathematical Breakthrough
+
+**Weighted aggregation via matrix multiply:**
+```python
+a = [[1.0, 0.0, 0.0],
+     [0.5, 0.5, 0.0],
+     [0.33, 0.33, 0.33]]  # Weights for positions 0, 1, 2
+
+b = [[2, 7],
+     [6, 4],
+     [6, 5]]  # Token embeddings
+
+c = a @ b  # Weighted sum of embeddings
+# c[0] = 1.0*b[0] = [2, 7]
+# c[1] = 0.5*b[0] + 0.5*b[1] = [4, 5.5]
+# c[2] = 0.33*b[0] + 0.33*b[1] + 0.33*b[2] = [4.67, 5.33]
+```
+
+This is **the** core operation in Transformers. 
+
+### Time Allocation Today
+
+* **Research work:** ~4 hours (architecture design, paper review)
+* **GPT tutorial:** ~3 hours (coding along, rewinding, taking notes)
+* **Total deep work:** ~7 hours
 
 
 
