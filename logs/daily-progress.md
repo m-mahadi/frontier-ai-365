@@ -18,7 +18,8 @@
 * [Day 11: Backpropagation Ninja Training - Manual Gradient Calculation Through Batch Normalization](#day-11-jan-7-2026)
 * [Day 12: Backpropagation Through BatchNorm - The Calculus Reality Check](#day-12-jan-8-2026)
 * [Day 13: Research Deep Dive - Multi-Hop Reasoning & Knowledge Graph RAG Architectures](#day-13-jan-9-2026)
-* [Day 14: Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations](#day-14-jan-10-2026)
+* [Day 14: Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations(part 1)](#day-14-jan-10-2026)
+
   
   
 ---
@@ -865,6 +866,7 @@ This is **the** core operation in Transformers.
 * **Research work:** ~4 hours (architecture design, paper review)
 * **GPT tutorial:** ~3 hours (coding along, rewinding, taking notes)
 * **Total deep work:** ~7 hours
+
 
 
 
