@@ -968,10 +968,6 @@ This pattern repeats N times (e.g., 12 layers in GPT-2 small, 96 in GPT-3).
   
 ### The Reality Check
 
-**Did I actually learn this, or did I just watch it?**
-
-Honest answer: **I watched it. I didn't internalize it.**
-
 I can explain the components:
 - Query, Key, Value projections ✓
 - Multi-head attention concept ✓
@@ -979,6 +975,7 @@ I can explain the components:
 - Layer normalization ✓
 
 But I couldn't implement a full Transformer from scratch right now. Not even close.
+
 
 
 
