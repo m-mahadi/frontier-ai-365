@@ -19,6 +19,7 @@
 * [Day 12: Backpropagation Through BatchNorm - The Calculus Reality Check](#day-12-jan-8-2026)
 * [Day 13: Research Deep Dive - Multi-Hop Reasoning & Knowledge Graph RAG Architectures](#day-13-jan-9-2026)
 * [Day 14: Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations(part 1)](#day-14-jan-10-2026)
+* [Day 15: Completing Karpathy's Let's build GPT](#day-15-jan-11-2026)
 
   
   
@@ -866,6 +867,118 @@ This is **the** core operation in Transformers.
 * **Research work:** ~4 hours (architecture design, paper review)
 * **GPT tutorial:** ~3 hours (coding along, rewinding, taking notes)
 * **Total deep work:** ~7 hours
+
+
+## Day 15: Jan 11, 2026
+**Focus:** Completing Karpathy's Let's build GPT
+
+**Watching:** Andrej Karpathy's "Let's build GPT: from scratch, in code, spelled out" (Completion)
+
+### Today's Progress
+
+* **Self-Attention Version 4 - The Real Deal:**
+    * Implemented full self-attention with Query, Key, Value projections.
+    * **The architecture:** Three linear transformations (`head_size = 16`):
+        - `key = x @ W_k` - What do I contain?
+        - `query = x @ W_q` - What am I looking for?
+        - `value = x @ W_v` - What do I communicate if I'm relevant?
+    * Computed attention weights: `wei = softmax(query @ key.T / sqrt(head_size))`
+    * Applied weights to values: `out = wei @ value`
+    * **Why this works:** Tokens with high query-key similarity get high attention weights, and we aggregate their values.
+* **Watched Through the Complete Architecture:**
+    * Multi-head attention (running multiple attention heads in parallel)
+    * Feed-forward networks (MLP after attention)
+    * Residual connections (`x = x + attention(x)`)
+    * Layer normalization
+    * Positional embeddings
+    * The full GPT decoder stack
+* **Understanding vs. Implementation:**
+    * Didn't write much code today - mostly watched and took notes.
+    * Focused on understanding *why* each component exists rather than just copying code.
+    * The lecture moves fast in the second half, covering the complete architecture.
+
+### Key Insights
+
+**Query-Key-Value Finally Makes Sense:**
+
+**Why separate Key and Value?**
+- Key is used for *routing* (deciding attention weights)
+- Value is used for *aggregation* (what gets mixed together)
+- They can encode different aspects of the same token
+
+**The Scaling Factor `sqrt(head_size)`:**
+- Without it, `query @ key.T` can have very large magnitudes
+- Large magnitudes → softmax saturates → gradients vanish
+- Dividing by `sqrt(d_k)` keeps the dot products in a reasonable range
+- This is **critical** for stable training - not just a minor detail
+
+**Multi-Head Attention = Multiple Perspectives:**
+- Instead of one 512-dim attention, run 8 heads of 64-dim each
+- Each head learns to attend to different patterns (syntax, semantics, position, etc.)
+- Concatenate all heads, then project back to model dimension
+- This is parallelizable - all heads run simultaneously
+
+**Residual Connections = Training Deep Networks:**
+- Without residuals: gradients vanish in deep networks
+- With residuals: gradients have a "highway" directly to earlier layers
+- Formula: `x = x + attention(x)` instead of `x = attention(x)`
+- Allows training 100+ layer networks (e.g., GPT-3 has 96 layers)
+
+**Layer Norm vs Batch Norm:**
+- Batch Norm: normalize across the batch dimension (what I learned in makemore)
+- Layer Norm: normalize across the feature dimension
+- Layer Norm is better for Transformers because:
+    - No coupling between examples in a batch
+    - Works with batch_size=1 during inference
+    - More stable for variable-length sequences
+
+**Positional Embeddings:**
+- Self-attention is permutation-invariant - it doesn't know token order
+- "The cat sat on the mat" and "mat the on sat cat The" look identical
+- Solution: add positional encodings to input embeddings
+- Two approaches: learned (what GPT uses) or sinusoidal (original Transformer paper)
+
+### What I Learned (Conceptually)
+
+**The Full Transformer Block:**
+```
+x = x + self_attention(layer_norm(x))  # Attention with residual
+x = x + feed_forward(layer_norm(x))    # MLP with residual
+```
+
+This pattern repeats N times (e.g., 12 layers in GPT-2 small, 96 in GPT-3).
+
+**Why the MLP after attention?**
+- Attention is linear (just weighted averaging)
+- MLP adds non-linearity and point-wise transformations
+- Think of it as: attention = communication, MLP = computation
+
+**The Training Setup:**
+- Cross-entropy loss on next-token prediction
+- Adam optimizer with learning rate decay
+- Gradient clipping to prevent explosions
+- Dropout for regularization
+
+### What I Still Don't Understand Deeply
+
+* **Why does multi-head attention work better than single-head with higher dimension?**
+* **The exact mechanics of masked self-attention:**
+* **How does the model learn long-range dependencies?**
+* **Positional embeddings - learned vs sinusoidal:**
+  
+### The Reality Check
+
+**Did I actually learn this, or did I just watch it?**
+
+Honest answer: **I watched it. I didn't internalize it.**
+
+I can explain the components:
+- Query, Key, Value projections ✓
+- Multi-head attention concept ✓
+- Residual connections ✓
+- Layer normalization ✓
+
+But I couldn't implement a full Transformer from scratch right now. Not even close.
 
 
 
