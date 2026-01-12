@@ -20,6 +20,7 @@
 * [Day 13: Research Deep Dive - Multi-Hop Reasoning & Knowledge Graph RAG Architectures](#day-13-jan-9-2026)
 * [Day 14: Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations(part 1)](#day-14-jan-10-2026)
 * [Day 15: Completing Karpathy's Let's build GPT](#day-15-jan-11-2026)
+* [Day 16: Understanding Tokenization - From Character-Level to Byte Pair Encoding](#day-16-jan-12-2026)
 
   
   
@@ -977,17 +978,42 @@ I can explain the components:
 But I couldn't implement a full Transformer from scratch right now. Not even close.
 
 
+## Day 16: Jan 12, 2026
+**Focus:** Understanding Tokenization - From Character-Level to Byte Pair Encoding
 
+**Watching:** Andrej Karpathy's "Let's build the GPT Tokenizer" (Part 1 - up to BPE algorithm)
 
+### Today's Progress
 
+* **Watched: Character-Level Tokenization:**
+    * Reviewed why character-level modeling (what we did in GPT tutorial) is inefficient
+    * 1 character = 1 token means very long sequences
+    * "Hello" = 5 tokens at character level vs 1 token at word level
+    * Long sequences → more computation, longer context needed
+* **Word-Level Tokenization Problems:**
+    * Naive approach: split on spaces, build vocabulary
+    * **Problem 1:** Vocabulary explosion (100k+ words in English)
+    * **Problem 2:** Can't handle unseen words (OOV = out of vocabulary)
+    * **Problem 3:** No morphological understanding ("run", "running", "runs" are completely separate)
+* **Byte Pair Encoding (BPE) - The Solution:**
+    * Start with character-level vocabulary
+    * Iteratively merge the most frequent pair of tokens
+    * Example: "l" + "o" appears often → create "lo" token
+    * "lo" + "w" appears often → create "low" token
+    * Continues until vocabulary reaches target size (e.g., 50k tokens)
+* **Why BPE is Genius:**
+    * Balances between character-level (flexible but inefficient) and word-level (efficient but rigid)
+    * Common words get single tokens ("the", "and", "is")
+    * Rare words get broken into subwords ("unhappiness" → "un" + "happiness")
+    * Can represent ANY text (no OOV problem) because it falls back to characters
+    * Vocabulary size is tunable (trade-off between sequence length and vocab size)
 
+### Key Insights
 
+**The Tokenization Hierarchy:**
+1. **Character-level:** 1 char = 1 token. Flexible but inefficient. ~100 token vocab.
+2. **Word-level:** 1 word = 1 token. Efficient but rigid. ~100k+ token vocab.
+3. **BPE (subword):** Between chars and words. Best of both worlds. ~50k token vocab.
 
-
-
-
-
-
-
-
+Ran out of time due to other work commitments. Will continue tomorrow.
 
