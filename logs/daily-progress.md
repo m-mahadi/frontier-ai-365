@@ -21,6 +21,7 @@
 * [Day 14: Building GPT from Scratch - Character-Level Language Modeling & Self-Attention Foundations(part 1)](#day-14-jan-10-2026)
 * [Day 15: Completing Karpathy's Let's build GPT](#day-15-jan-11-2026)
 * [Day 16: Understanding Tokenization - From Character-Level to Byte Pair Encoding](#day-16-jan-12-2026)
+* [Day 17: Attention Mechanics & The KV Cache](#day-17-jan-13-2026)
 
   
   
@@ -1016,4 +1017,75 @@ But I couldn't implement a full Transformer from scratch right now. Not even clo
 3. **BPE (subword):** Between chars and words. Best of both worlds. ~50k token vocab.
 
 Ran out of time due to other work commitments. Will continue tomorrow.
+
+## Day 17: Jan 13, 2026
+**Focus:** The Engine Room - Attention Mechanics & The KV Cache
+
+**Watching:**
+* [Query, Key and Value Matrix for Attention Mechanisms](https://www.youtube.com/watch?v=UPtG_38Oq8o)
+* [The KV Cache: Memory Usage in Transformers](https://www.youtube.com/watch?v=80bIUggRJf4)
+
+### Today's Progress
+
+* **The "Zero-Motivation" Day:**
+    * Woke up with absolutely no drive. Brain felt like mush.
+    * Considered taking a zero day. Then remembered the rule: **no zero days.**
+    * Couldn't handle coding today. So I pivoted - focused on conceptual videos instead.
+    * Sometimes showing up at 30% is better than not showing up at all.
+
+* **Attention Mechanics Deep Dive:**
+    * Finally deconstructed what Query, Key, and Value **actually mean** beyond the abstract math.
+    * **The Intuition:**
+        - **Query:** "What am I looking for?" (e.g., the word "Bank" asking "what context should I use?")
+        - **Key:** "What do I contain?" (e.g., "River" saying "I'm a geographical feature")
+        - **Value:** "What information do I pass along?" (e.g., "River" providing its semantic embedding)
+    * **The Disambiguation Example:**
+        - Input: "The bank of the river"
+        - Query from "bank" computes dot product with all Keys
+        - High score with "river" (geographical context)
+        - Low score with any financial terms
+        - Attention weights pull the Value from "river" → "bank" now means riverbank, not financial institution
+    * This is how Transformers resolve ambiguity. It's not magic - it's learned similarity matching.
+
+* **The KV Cache - Why Inference is Expensive:**
+    * Watched Umar Jamil's explanation of why long-context generation kills VRAM.
+    * **The Problem Without Caching:**
+        - Generating token 1: compute attention over 0 tokens (instant)
+        - Generating token 2: compute attention over 1 token
+        - Generating token 100: compute attention over 99 tokens
+        - Generating token 1000: compute attention over 999 tokens
+        - This is **quadratic waste** - you're recomputing the same Keys and Values over and over
+    * **The Solution - KV Cache:**
+        - After computing Key and Value for token `t`, store them in GPU memory
+        - When generating token `t+1`, reuse the cached K and V matrices
+        - Only compute new K and V for the single new token
+        - Concatenate with cached tensors: `K_cached = [K_old, K_new]`
+    * **The Trade-off:**
+        - **Without cache:** Low memory, but quadratic compute (slow)
+        - **With cache:** Linear compute (fast), but massive memory usage
+        - For a 7B model with 4096 context length, the KV cache can be **larger than the model weights themselves**
+    * **Why OpenAI Charges Per Token:**
+        - Every token you generate requires storing K and V tensors in VRAM
+        - Long conversations = huge memory footprint
+        - This is why ChatGPT "forgets" - they have to truncate context to save memory
+        - This is why long-context models (GPT-4 Turbo 128k) cost more - the KV cache scales with context length
+          
+### The Reality Check
+
+**Coding today:** Literally zero.
+
+**Why?**
+- Mental fatigue. Motivation was completely dead.
+- Had two options: (1) Take a zero day, or (2) Do *something* productive
+- Chose option 2 - watched conceptual videos instead of coding
+
+**Is this a problem?**
+
+Maybe. This is now Day 4 of minimal/no coding:
+- Day 14: Some coding (GPT Part 1)
+- Day 15: Minimal coding (GPT Part 2)
+- Day 16: Zero coding (Tokenizer lecture)
+- Day 17: Zero coding (Attention theory)
+
+**The pattern is clear:** I'm in passive learning mode. Watching videos is my procrastination.
 
