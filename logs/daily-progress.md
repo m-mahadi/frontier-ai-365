@@ -22,6 +22,8 @@
 * [Day 15: Completing Karpathy's Let's build GPT](#day-15-jan-11-2026)
 * [Day 16: Understanding Tokenization - From Character-Level to Byte Pair Encoding](#day-16-jan-12-2026)
 * [Day 17: Attention Mechanics & The KV Cache](#day-17-jan-13-2026)
+* [Day 18: Byte Pair Encoding Implementation - Building a Tokenizer from Scratch](#day-18-jan-14-2026)
+  
 
   
   
@@ -1088,4 +1090,114 @@ Maybe. This is now Day 4 of minimal/no coding:
 - Day 17: Zero coding (Attention theory)
 
 **The pattern is clear:** I'm in passive learning mode. Watching videos is my procrastination.
+
+## Day 18: Jan 14, 2026
+**Focus:** Byte Pair Encoding Implementation - Building a Tokenizer from Scratch
+
+**Code:** [BPE Tokenizer Implementation](https://github.com/m-mahadi/frontier-ai-365/blob/79752055930ff1b843138f859a1701833f3e415d/01-foundations-nn/tokenizer%20unfinished.ipynb)
+
+**Watching:** Andrej Karpathy's "Let's build the GPT Tokenizer" (Continuation - BPE Implementation)
+
+### Today's Progress
+
+* **BPE Algorithm Implementation:**
+    * Built the core `get_stats()` function - counts frequency of all adjacent byte pairs
+    * Implemented `merge()` function - replaces most frequent pair with a new token ID
+    * **The Training Loop:**
+        - Start with UTF-8 bytes (vocab size = 256)
+        - Find most frequent byte pair in corpus
+        - Merge that pair into a new token (ID = 256, 257, 258...)
+        - Repeat until reaching target vocab size (276 in this example)
+    * Tracked all merges in a dictionary for later use during encoding
+
+* **Encoding & Decoding:**
+    * **Decoding:** Built vocab dictionary mapping token IDs to their byte sequences, then concatenated and decoded to UTF-8
+    * **Encoding:** Given new text, iteratively apply merge rules learned during training
+    * **The Challenge:** Need to apply merges in the **correct order** (the order they were learned)
+    * **The Solution:** `min(stats, key=lambda p: merges.get(p, float("inf")))` - finds the pair that was merged earliest
+
+* **Compression Results:**
+    * Original text: 24,597 bytes
+    * After BPE (vocab size 276): 19,438 tokens
+    * **Compression ratio: 1.27x**
+    * With larger vocab (e.g., 50k like GPT-2), compression would be ~4x
+
+* **Verification:**
+    * `decode(encode(text)) == text` ✓ - Round-trip works perfectly
+    * The tokenizer can encode *any* UTF-8 text (no OOV problem) because it falls back to individual bytes
+
+### Key Insights
+
+**BPE is Greedy Compression:**
+- At each step, merge the most frequent pair
+- This is a greedy algorithm - not guaranteed to be optimal
+- But it's fast and works well in practice
+- Similar to Huffman coding but for pairs instead of individual symbols
+
+**The Merge Order Problem:**
+When encoding new text, you can't just merge any pair you see. You need to apply merges in the **same order** they were learned during training.
+
+Example:
+```
+Training learned: (101, 32) → 256, then (256, 116) → 257
+Encoding "e t": First merge (101, 32) → [256, 116]
+                Then merge (256, 116) → [257]
+```
+
+If you applied merges out of order, the encoding would be inconsistent with training.
+
+**Why UTF-8 Bytes as Base:**
+- GPT tokenizers start with UTF-8 byte-level encoding (256 base tokens)
+- This means they can represent **any** Unicode text without OOV errors
+- Alternative: start with characters (65k+ vocab for Unicode) - wastes vocab space
+- Byte-level is more efficient and handles rare scripts automatically
+
+**The Vocabulary Dictionary:**
+```python
+vocab = {idx: bytes([idx]) for idx in range(256)}  # Base: single bytes
+for (p0, p1), idx in merges.items():
+    vocab[idx] = vocab[p0] + vocab[p1]  # Build up merged tokens
+```
+Each token ID maps to its byte sequence. Token 256 might be `b"e "`, token 257 might be `b"in"`, etc.
+
+**The Encoding Loop:**
+```python
+while len(tokens) >= 2:
+    stats = get_stats(tokens)
+    pair = min(stats, key=lambda p: merges.get(p, float("inf")))
+    if pair not in merges:
+        break  # No more valid merges
+    idx = merges[pair]
+    tokens = merge(tokens, pair, idx)
+```
+Keep merging until no more learned pairs exist in the sequence.
+
+### What I Learned (Implementation Details)
+
+**The `zip(ids, ids[1:])` Trick:**
+```python
+for pair in zip(ids, ids[1:]):
+    counts[pair] = counts.get(pair, 0) + 1
+```
+This iterates over all adjacent pairs in one pass. Elegant.
+
+**The Merge Logic:**
+```python
+while i < len(ids):
+    if i < len(ids) - 1 and ids[i] == pair[0] and ids[i+1] == pair[1]:
+        newids.append(idx)
+        i += 2  # Skip both elements of the pair
+    else:
+        newids.append(ids[i])
+        i += 1
+```
+Can't use a for-loop because we need to skip 2 positions when we merge. While-loop with manual index management.
+
+### The Reality Check
+
+**Coding today:** About 2 hours of active coding (following along with Karpathy).
+
+**Did I code from scratch?** No. I followed the lecture step-by-step.
+
+**Could I implement this without the video?** Probably not. I understand each function now, but I wouldn't have known the overall structure without guidance.
 
