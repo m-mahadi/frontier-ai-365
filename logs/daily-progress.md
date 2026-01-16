@@ -1373,10 +1373,6 @@ The Hessian is a matrix of second-order partial derivatives. It tells you the **
    - This is like the scalar rule (x²)' = 2x, but in matrix form
    - The "2" appears because x appears twice in the product
 
-3. **Chain rule:** ∇f(x) = g'(h(x)) · ∇h(x)
-   - Outer derivative (scalar) × inner gradient (vector) = gradient (vector)
-   - This is **exactly** what backpropagation does in neural networks
-
 **The Outer Product (aa^T) Mystery - SOLVED:**
 
 This was the hardest part. Why does the Hessian need aa^T instead of a^T a?
@@ -1426,3 +1422,4 @@ Junior: Randomly tweaks hyperparameters hoping for improvements
 Senior: Diagnoses exactly why the model is failing (bias vs variance) and applies surgical fixes
 
 This is what I need to become - someone who can debug models systematically, not just throw more data/compute at problems.
+
