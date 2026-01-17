@@ -25,6 +25,8 @@
 * [Day 18: Byte Pair Encoding Implementation - Building a Tokenizer from Scratch](#day-18-jan-14-2026)
 * [Day 19: The Regex Hell - Research Work Day](#day-19-jan-15-2026)
 * [Day 20: Matrix Calculus Foundations - The Math Behind Backpropagation](#day-20-jan-16-2026)
+* [Day 21: Positive Definite Matrices & GraphRAG Implementation
+](#day-21-jan-17-2026)
   
 
   
@@ -1423,3 +1425,85 @@ Senior: Diagnoses exactly why the model is failing (bias vs variance) and applie
 
 This is what I need to become - someone who can debug models systematically, not just throw more data/compute at problems.
 
+## Day 21: Jan 17, 2026
+**Focus:** Positive Definite Matrices & GraphRAG Implementation
+
+**Study:** Linear Algebra - Positive Definite Matrices
+**Code:** Research project implementation (details classified)
+
+### Today's Progress
+
+* **Math Work:** Positive definite matrices problem set
+* **Research Work:** System implementation (not the focus of this log)
+* **Zero deep learning fundamentals coding**
+
+### The Math: Positive Definite Matrices
+
+**The Definition:**
+
+A matrix A ∈ ℝⁿˣⁿ is **positive semidefinite** (PSD), denoted A ≽ 0, if:
+- A = Aᵀ (symmetric)
+- xᵀAx ≥ 0 for all x ∈ ℝⁿ
+
+A matrix is **positive definite** (PD), denoted A ≻ 0, if:
+- A = Aᵀ (symmetric)  
+- xᵀAx > 0 for all x ≠ 0 (strictly greater than zero for non-zero vectors)
+
+**The Simplest Example:**
+
+The identity matrix I (diagonal matrix with 1s on diagonal, 0s elsewhere):
+
+xᵀIx = xᵀx = Σᵢ xᵢ² = ||x||²
+
+This is always ≥ 0, and equals 0 only when x = 0.
+
+### The Math: Key Tricks I Learned
+
+**Problem (a): Proving A = zzᵀ is positive semidefinite**
+
+**The Trick:** Use associativity to rearrange the product.
+
+xᵀ(zzᵀ)x = (xᵀz)(zᵀx) = α · α = α²
+
+Since any number squared is ≥ 0, the matrix is PSD. Simple.
+
+**Problem (b): Finding null-space and rank of A = zzᵀ**
+
+**The Trick:** Compute Ax directly, then factor.
+
+Ax = (zzᵀ)x = z(zᵀx)
+
+For this to equal zero, need zᵀx = 0.
+
+**Result:** 
+- Null-space = all vectors orthogonal to z (dimension n-1)
+- Rank = 1 (every row/column is a multiple of every other)
+
+**Verification:** rank + nullity = 1 + (n-1) = n ✓
+
+**Problem (c): Rank inequalities with PSD matrices**
+
+**Got stuck here.** Tried multiple approaches:
+- Column space argument
+- Row space argument  
+- Couldn't figure out where the PSD property matters
+
+Ran out of cognitive energy after 30 minutes. Need fresh brain to revisit.
+
+### Key Process Insights
+
+**The Outer Product Trick:**
+
+When you see zzᵀ, remember:
+- It's always rank 1 (only one independent direction)
+- It's always PSD (because xᵀ(zzᵀ)x is a squared dot product)
+- Its null-space is all vectors perpendicular to z
+
+**The Associativity Trick:**
+
+When proving xᵀAx ≥ 0, try rearranging using parentheses:
+- xᵀ(zzᵀ)x = (xᵀz)(zᵀx) reveals the structure
+- Dot products commute: xᵀz = zᵀx
+- Result: something squared, which is always ≥ 0
+
+For now: accept slow math progress. Research has priority.
