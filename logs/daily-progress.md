@@ -25,8 +25,9 @@
 * [Day 18: Byte Pair Encoding Implementation - Building a Tokenizer from Scratch](#day-18-jan-14-2026)
 * [Day 19: The Regex Hell - Research Work Day](#day-19-jan-15-2026)
 * [Day 20: Matrix Calculus Foundations - The Math Behind Backpropagation](#day-20-jan-16-2026)
-* [Day 21: Positive Definite Matrices & GraphRAG Implementation
-](#day-21-jan-17-2026)
+* [Day 21: Positive Definite Matrices & GraphRAG Implementation](#day-21-jan-17-2026)
+* [Day 22: Eigenvalues, Eigenvectors, and the Spectral Theorem](#day-22-jan-17-2026)
+
   
 
   
@@ -1507,3 +1508,77 @@ When proving xᵀAx ≥ 0, try rearranging using parentheses:
 - Result: something squared, which is always ≥ 0
 
 For now: accept slow math progress. Research has priority.
+
+## Day 22: Jan 18, 2026
+**Focus:** Eigenvalues, Eigenvectors, and the Spectral Theorem
+
+**Study:** Linear Algebra - Spectral decomposition and diagonalization
+
+### Today's Progress
+
+* **Math Work:** Eigenvalue problem set (problems on diagonalization and spectral theorem)
+* **Research Work:** Minimal - mostly math focus today
+* **Zero deep learning coding**
+
+### The Math: What I Learned
+
+**Eigenvectors and Eigenvalues:**
+
+An eigenvector v of matrix A satisfies: Av = λv
+
+The scalar λ is the eigenvalue. The vector just gets scaled, not rotated.
+
+**Diagonalization:**
+
+If A is diagonalizable: A = TΛT⁻¹
+
+Where:
+- T has eigenvectors as columns: T = [v⁽¹⁾ ... v⁽ⁿ⁾]
+- Λ is diagonal with eigenvalues: Λ = diag(λ₁,...,λₙ)
+
+**The Spectral Theorem:**
+
+For symmetric matrices (A = Aᵀ):
+- Always diagonalizable by orthogonal matrix U
+- A = UΛUᵀ where UᵀU = I
+- All eigenvalues are real
+- Eigenvectors are orthogonal
+
+**Problem (b): Orthogonal eigenvectors**
+
+Showed that if U = [u⁽¹⁾ ... u⁽ⁿ⁾] is orthogonal and A = UΛUᵀ, then:
+- u⁽ⁱ⁾ is an eigenvector of A
+- Au⁽ⁱ⁾ = λᵢu⁽ⁱ⁾
+
+**Problem (c): PSD eigenvalues**
+
+If A is positive semidefinite, then all eigenvalues λᵢ ≥ 0.
+
+Got stuck on the formal proof. Need to revisit.
+
+### Why This Matters
+
+**For Neural Networks:**
+
+- Eigenvalues of Hessian tell you about loss landscape curvature
+- PCA uses eigenvectors of covariance matrix
+- Spectral normalization in GANs uses largest eigenvalue
+- Condition number (max λ / min λ) affects optimization stability
+
+### Time Allocation
+
+* **Eigenvalue problems:** ~2 hours
+* **Research work:** ~1 hour
+* **Total:** ~3 hours
+
+Short day. Exhausted from yesterday.
+
+### 🏁 Status
+
+**Math:** Partial progress on spectral theorem problems.
+
+**Research:** On hold today.
+
+**Mental State:** Tired. Needed a lighter day.
+
+Still grinding. One day at a time.
