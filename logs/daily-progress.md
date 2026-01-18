@@ -26,7 +26,7 @@
 * [Day 19: The Regex Hell - Research Work Day](#day-19-jan-15-2026)
 * [Day 20: Matrix Calculus Foundations - The Math Behind Backpropagation](#day-20-jan-16-2026)
 * [Day 21: Positive Definite Matrices & GraphRAG Implementation](#day-21-jan-17-2026)
-* [Day 22: Eigenvalues, Eigenvectors, and the Spectral Theorem](#day-22-jan-17-2026)
+* [Day 22: Eigenvalues, Eigenvectors, and the Spectral Theorem](#day-22-jan-18-2026)
 
   
 
@@ -1582,3 +1582,4 @@ Short day. Exhausted from yesterday.
 **Mental State:** Tired. Needed a lighter day.
 
 Still grinding. One day at a time.
+
